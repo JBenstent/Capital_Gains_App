@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(version: 20170327153501) do
     t.string   "city"
     t.string   "state"
     t.integer  "zip"
-    t.integer  "phone"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "phone",            limit: 32
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
 end

@@ -11,7 +11,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :city
       t.string :state
       t.integer :zip
-      t.integer :phone
+      t.integer :phone, :limit => 32
       t.timestamps null: false
     end
   end

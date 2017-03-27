@@ -25,4 +25,10 @@ class UserController < ApplicationController
      redirect_to "/login"
    end
  end
+
+  def logout
+    session.clear
+    redirect_to "/login"
+  end
+
 end

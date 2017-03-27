@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   post "create/user" => "user#create_user"
 
   post "user/login" => "user#login"
+
+  get "/logout" => "user#logout"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
