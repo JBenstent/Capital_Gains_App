@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  purchase_price: 1
+  ticker_symbol: MyString
+
+two:
+  user_id: 
+  purchase_price: 1
+  ticker_symbol: MyString
