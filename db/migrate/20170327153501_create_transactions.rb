@@ -4,7 +4,6 @@ class CreateTransactions < ActiveRecord::Migration
       t.references :user, index: true, foreign_key: true
       t.integer :purchase_price
       t.string :ticker_symbol
-
       t.timestamps null: false
     end
   end

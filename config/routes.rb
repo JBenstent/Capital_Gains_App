@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+
+  get "/login" => "user#loginreg"
+
+  root "transaction#homepage"
+
+  post "create/user" => "user#create_user"
+
+  post "user/login" => "user#login"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
