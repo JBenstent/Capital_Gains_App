@@ -1,0 +1,9 @@
+<h1>Stock Purchase Page</h1>
+
+<a href="/transaction/search">Link Test</a>
+
+<form action="/transaction/search" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="text" name="ticker" value="">
+  <input type="submit" value="submit">
+</form>
