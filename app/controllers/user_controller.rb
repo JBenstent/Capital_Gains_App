@@ -19,6 +19,8 @@ class UserController < ApplicationController
  def login
    user = User.find_by(email: params[:email])
    if user
+     session[:user] = user
+     session[:user_id] = user.id
      redirect_to "/"
    else
      flash[:errors] = ["Invalid login"]

@@ -1,3 +1,12 @@
+<% if flash[:errors] %>
+	<% flash[:errors].each do |msg| %>
+  <ul>
+    <li><%= msg %></li>
+  </ul>
+  <%end%>
+<%end%>
+
+
 <h1><%= @current_result['results'][0]['name'] %></h1>
 <a href="/transaction/follow" data-method='POST'>Follow Stock</a>
 
