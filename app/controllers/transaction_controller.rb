@@ -15,4 +15,5 @@ class TransactionController < ApplicationController
     HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
     render "/transaction/results"
   end
+
 end

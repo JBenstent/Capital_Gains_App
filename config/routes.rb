@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 #Transaction GET routes
 get "transaction/index"
 get "transaction/search"
-
 root "transaction#index"
 
 # User POST routes
@@ -13,11 +12,8 @@ post "create/user" => "user#create_user"
 post "user/login" => "user#login"
 
 #User GET routes
-get "/login" => "user#loginreg"
-
-
-
-
+  post "user/login" => "user#login"
+  get "/logout" => "user#logout"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
