@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20170327153501) do
     t.string   "email"
     t.string   "password_digest"
     t.integer  "checking_account"
-    t.string   "address"
     t.string   "city"
     t.string   "state"
     t.integer  "zip"

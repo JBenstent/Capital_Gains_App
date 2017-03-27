@@ -1,0 +1,33 @@
+<% if flash[:errors] %>
+	<% flash[:errors].each do |msg| %>
+  <ul>
+    <li><%= msg %></li>
+  </ul>
+  <%end%>
+<%end%>
+
+<h4>Registration</h4>
+<form class="" action="/create/user" method="post">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+  <h5>Address:</h5>
+  <p>City: <input type="text" name="city" value=""></p>
+  <p>State: <input type="text" name="state" value=""></p>
+  <p>Zip: <input type="text" name="zip" value=""></p>
+  <p>Phone: <input type="text" name="phone" value=""></p>
+  <h5>User Credentials: </h5>
+  <p>First Name: <input type="text" name="first_name" value=""></p>
+  <p>Last Name: <input type="text" name="last_name" value=""></p>
+  <p>Email: <input type="text" name="email" value=""></p>
+  <p>Password: <input type="text" name="password" value=""></p>
+  <p>Confirm Password: <input type="text" name="confirm_pw" value=""></p>
+  <input type="submit" name="" value="Register">
+</form>
+<hr>
+
+<h4>Login</h4>
+<form class="" action="/user/login" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <p>Email: <input type="text" name="email" value=""></p>
+  <p>Password: <input type="text" name="password" value=""></p>
+  <input type="submit" name="" value="Login">
+</form>
