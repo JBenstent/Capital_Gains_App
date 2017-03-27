@@ -1,25 +1,63 @@
-<table>
-  <tr>
-    <thead>
-      <th>Symbol</th>
-      <th>Trading Day</th>
-      <th>Open</th>
-      <th>High</th>
-      <th>Low</th>
-      <th>Close</th>
-      <th>Volume</th>
-    </thead>
-  </tr>
+<h1><%= @current_result['results'][0]['name'] %></h1>
 
-  <% @result['results'].each do |result| %>
-  <tr>
-    <td><%= result["symbol"] %></td>
-    <td><%= result["tradingDay"] %></td>
-    <td><%= result["open"] %></td>
-    <td><%= result["high"] %></td>
-    <td><%= result["low"] %></td>
-    <td><%= result["close"] %></td>
-    <td><%= result["volume"] %></td>
-  </tr>
-  <% end %>
-</table>
+<div class="results">
+<h2>Current Information</h2>
+  <table>
+    <tr>
+      <thead>
+        <th>Symbol</th>
+        <th>Exchange</th>
+        <th>Open</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Volume</th>
+      </thead>
+    </tr>
+    <% @current_result['results'].each do |result| %>
+    <tr>
+      <td><%=result["symbol"]%></td>
+      <td><%=result["exchange"]%></td>
+      <td><%=result["open"]%></td>
+      <td><%=result["high"]%></td>
+      <td><%=result["low"]%></td>
+      <td><%=result["volume"]%></td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="results">
+  <h2>Historical Information</h2>
+  <table>
+    <tr>
+      <thead>
+        <th>Symbol</th>
+        <th>Trading Day</th>
+        <th>Open</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Close</th>
+        <th>Volume</th>
+      </thead>
+    </tr>
+
+    <% @historical_result['results'].each do |result| %>
+    <tr>
+      <td><%= result["symbol"] %></td>
+      <td><%= result["tradingDay"] %></td>
+      <td><%= result["open"] %></td>
+      <td><%= result["high"] %></td>
+      <td><%= result["low"] %></td>
+      <td><%= result["close"] %></td>
+      <td><%= result["volume"] %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+
+<hr>
+<br>
