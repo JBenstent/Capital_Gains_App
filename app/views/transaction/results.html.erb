@@ -1,0 +1,29 @@
+
+
+
+
+<table>
+  <tr>
+    <thead>
+      <th>Symbol</th>
+      <th>Trading Day</th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+    </thead>
+  </tr>
+
+  <% @result['results'].each do |result| %>
+  <tr>
+    <td><%= result["symbol"] %></td>
+    <td><%= result["tradingDay"] %></td>
+    <td><%= result["open"] %></td>
+    <td><%= result["high"] %></td>
+    <td><%= result["low"] %></td>
+    <td><%= result["close"] %></td>
+    <td><%= result["volume"] %></td>
+  </tr>
+  <% end %>
+</table>
