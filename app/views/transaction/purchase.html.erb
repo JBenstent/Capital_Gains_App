@@ -2,6 +2,14 @@
 
 <!-- <a href="/transaction/search">Link Test</a> -->
 
+<% if flash[:errors] %>
+	<% flash[:errors].each do |msg| %>
+  <ul>
+    <li><%= msg %></li>
+  </ul>
+  <%end%>
+<%end%>
+
 <form action="/transaction/search" method="get">
   Ticker: <input type="text" name="ticker" value="">
   <input type="submit" value="submit">
