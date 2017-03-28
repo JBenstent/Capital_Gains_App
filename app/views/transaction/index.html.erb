@@ -4,7 +4,7 @@
 	}
 </style>
 
-<h1>Index Page</h1>
+<h1>Capital Gains</h1>
 
 <% if flash[:errors] %>
 	<% flash[:errors].each do |msg| %>
@@ -24,27 +24,53 @@
 
 <br>
 <br>
+<hr>
+
+<h2>Account Snapshot</h2>
 
 <div class="AccountSnapshot">
 <p>Cash Balance: $<%= @user.checking_account %></p>
-<p>Stocks: <%= @stockbalance %></p>
+<p>Stocks: $</p>
+<p>Cash+Stocks: $</p>
 
-
-
-<p>Cash+Stocks: $ <%= @stockbalance.to_f + @user.checking_account.to_f %></p>
 </div>
 
 <br>
 <br>
 <hr>
 
+<div class="Portfolio">
+	<h2>Portfolio</h2>
+	<table>
+		<tr>
+			<thead>
+				<th>Stock</th>
+				<th>Quantity Owned</th>
+				<th>Current Price</th>
+				<th>Action</th>
+			</thead>
+		</tr>
+		<% @stock_owned.each do |stock| %>
+		<tr>
+			<td><%= stock[0] %></td>
+			<td><%= stock[1] %></td>
+			<td></td>
+			<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
+		</tr>
+		<% end %>
+	</table>
+</div>
+
+<br>
+<br>
+<hr>
+
+<h2>Watchlist</h2>
 <% @ticker_follows.each do |ticker| %>
 <% @stock = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{ticker.ticker_symbol}") %>
 <% @stock['results'].each do |result| %>
-<p><%=result["name"] %></p>
-<a href="/transaction/unfollow/<%=ticker.id %> " data-method='POST'>Unfollow</a>
-<a href="/transaction/purchase/<%= ticker.ticker_symbol %>">Purchase Stock</a>
-<a href="/transaction/sell/<%=ticker.ticker_symbol %>">Sell Stock</a>
+<h4><%=result["name"] %></h4>
+
 <table>
 	<tr>
 		<thead>
@@ -53,6 +79,7 @@
 			<th>High</th>
 			<th>Low</th>
 			<th>Volume</th>
+			<th>Action</th>
 		</thead>
 	</tr>
 
@@ -62,6 +89,8 @@
 		<td><%=result["high"]%></td>
 		<td><%=result["low"]%></td>
 		<td><%=result["volume"]%></td>
+		<td><a href="/transaction/unfollow/<%=ticker.id %> " data-method='POST'>Unfollow</a>
+		<a href="/transaction/purchase/<%= ticker.ticker_symbol %>">Purchase Stock</a></td>
 	</tr>
 	<% end %>
 </table>
@@ -73,13 +102,19 @@
 <div class="Purchase_Sell_Stock">
 	<h3>Purchase Stock</h3>
 	<form class="transaction" action="/transaction/confirmation/buy" method="post">
+
 		<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
+
 		<p>Stock: <input type="text" name="ticker" value="<%=@stockpurchase['results'][0]['symbol'] %>"></p>
 		<% @price =  @stockpurchase['results'][0]['lastPrice'] %>
+
 		<p>Price: <input type="text" name="price" class="price" value="<%=@price %>"></p>
+
 		<p>Quantity: <input type="text" name="quantity" class="quantity" value=""></p>
+
 		<p>Cost: $<span class='result'></span></p>
 		<input type="submit" name="" value="Buy">
+
 	</form>
 </div>
 <% end %>
@@ -101,10 +136,6 @@
 	</form>
 </div>
 <% end %>
-
-<div class="Portfolio">
-
-</div>
 
 
 <script type="text/javascript">
