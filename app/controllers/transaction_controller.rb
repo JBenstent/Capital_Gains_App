@@ -1,6 +1,7 @@
 class TransactionController < ApplicationController
 
   def index
+  @ticker_follows = Ticker.all
   render "/transaction/index"
   end
 
@@ -38,6 +39,12 @@ class TransactionController < ApplicationController
   end
 
   def follow
+    Ticker.create(user_id: session[:user_id], ticker_symbol: params[:ticker])
+    redirect_to "/transaction/index"
+  end
+
+  def unfollow
+    Ticker.delete(params[:id])
     redirect_to "/transaction/index"
   end
 end
