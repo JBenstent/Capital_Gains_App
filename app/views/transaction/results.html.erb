@@ -1,14 +1,6 @@
-<% if flash[:errors] %>
-	<% flash[:errors].each do |msg| %>
-  <ul>
-    <li><%= msg %></li>
-  </ul>
-  <%end%>
-<%end%>
-
-
 <h1><%= @current_result['results'][0]['name'] %></h1>
-<a href="/transaction/follow" data-method='POST'>Follow Stock</a>
+
+<a href="/transaction/follow/<%= @current_result['results'][0]['symbol'] %>" data-method='POST'>Follow Stock</a>
 
 <div class="results">
 <h2>Current Information</h2>
@@ -17,6 +9,7 @@
       <thead>
         <th>Symbol</th>
         <th>Exchange</th>
+        <th>Last Price</th>
         <th>Open</th>
         <th>High</th>
         <th>Low</th>
@@ -27,6 +20,7 @@
     <tr>
       <td><%=result["symbol"]%></td>
       <td><%=result["exchange"]%></td>
+      <td><%=result["lastPrice"]%></td>
       <td><%=result["open"]%></td>
       <td><%=result["high"]%></td>
       <td><%=result["low"]%></td>

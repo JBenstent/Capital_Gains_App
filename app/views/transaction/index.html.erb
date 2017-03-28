@@ -12,5 +12,39 @@
   Ticker: <input type="text" name="ticker" value="">
   <input type="submit" value="submit">
 </form>
+
 <a href="/logout">Logout</a>
 <a href="/account">Account</a>
+
+
+
+<br>
+<br>
+<hr>
+
+<% @ticker_follows.each do |ticker| %>
+<% @stock = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{ticker.ticker_symbol}") %>
+<% @stock['results'].each do |result| %>
+<p><%=result["name"] %></p>
+<a href="/transaction/unfollow/<%=ticker.id %> " data-method='POST'>Unfollow</a>
+<table>
+	<tr>
+		<thead>
+			<th>Last Price</th>
+			<th>Open</th>
+			<th>High</th>
+			<th>Low</th>
+			<th>Volume</th>
+		</thead>
+	</tr>
+
+	<tr>
+		<td><%=result["lastPrice"]%></td>
+		<td><%=result["open"]%></td>
+		<td><%=result["high"]%></td>
+		<td><%=result["low"]%></td>
+		<td><%=result["volume"]%></td>
+	</tr>
+	<% end %>
+</table>
+<% end %>
