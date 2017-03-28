@@ -22,7 +22,17 @@
 <a href="/logout">Logout</a>
 <a href="/account">Account</a>
 
+<br>
+<br>
 
+<div class="AccountSnapshot">
+<p>Cash Balance: $<%= @user.checking_account %></p>
+<p>Stocks: <%= @stockbalance %></p>
+
+
+
+<p>Cash+Stocks: $ <%= @stockbalance.to_f + @user.checking_account.to_f %></p>
+</div>
 
 <br>
 <br>
@@ -74,13 +84,6 @@
 </div>
 <% end %>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	$('.quantity').keyup(function(){
-		$('.result').text($('.price').val() * $('.quantity').val());
-	});
-});
-</script>
 
 
 <% if @stocksell %>
@@ -98,3 +101,16 @@ $(document).ready(function(){
 	</form>
 </div>
 <% end %>
+
+<div class="Portfolio">
+
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.quantity').keyup(function(){
+		$('.result').text($('.price').val() * $('.quantity').val());
+	});
+});
+</script>

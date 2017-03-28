@@ -4,13 +4,12 @@ class TransactionController < ApplicationController
     if !session[:user]
       redirect_to "/login"
     else
-
       @ticker_follows = Ticker.all
+      @user = User.find(session[:user_id])
+      @stockbalance = Transaction.where(user_id: session[:user_id], transaction_type: 'buy', ticker_symbol: ).sum(:quantity)
       render "/transaction/index"
     end
-    render "/transaction/index"
   end
-
 
 
   def search
@@ -59,6 +58,15 @@ class TransactionController < ApplicationController
     if !session[:user]
       redirect_to "/login"
     else
+    @user = User.find(session[:user_id])
+
+
+    @stockbalance = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').sum(:quantity)
+
+
+
+
+
     @ticker_follows = Ticker.all
     symbol = params[:ticker]
     @stockpurchase = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
@@ -70,6 +78,8 @@ class TransactionController < ApplicationController
     if !session[:user]
       redirect_to "/login"
     else
+    @user = User.find(session[:user_id])
+    @stockbalance = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').sum(:trade_price)
     @ticker_follows = Ticker.all
     symbol = params[:ticker]
     @stocksell = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
@@ -85,7 +95,6 @@ class TransactionController < ApplicationController
       @funds = @user.checking_account - @cost
       @user.checking_account = @funds
       @user.save
-      return render json: @user.errors
 
       Transaction.create(user_id: session[:user_id], quantity: params[:quantity],current_price: params[:price],ticker_symbol: params[:ticker], transaction_type: 'buy', trade_price: @cost )
     redirect_to "/transaction/index"
