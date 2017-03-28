@@ -5,13 +5,18 @@ class TransactionController < ApplicationController
     if !session[:user]
       redirect_to "/login"
     else
-    @ticker_follows = Ticker.all
-    render "/transaction/index"
+
+      @ticker_follows = Ticker.all
+      render "/transaction/index"
     end
-     
+    render "/transaction/index"
   end
+
+
+
   def search
 
+  @widget_symbol = params[:ticker]
   symbol = params[:ticker]
 
 
@@ -62,4 +67,5 @@ class TransactionController < ApplicationController
     Ticker.delete(params[:id])
     redirect_to "/transaction/index"
   end
+
 end
