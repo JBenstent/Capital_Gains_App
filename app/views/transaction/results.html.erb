@@ -1,11 +1,47 @@
-<h1><%= @current_result['results'][0]['name'] %></h1>
+<!-- TradingView Widget BEGIN -->
+<div id="tv-medium-widget-208a5"></div>
 
-<a href="/transaction/follow/<%= @current_result['results'][0]['symbol'] %>" data-method='POST'>Follow Stock</a>
+
+<script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
+<script type="text/javascript">
+new TradingView.MediumWidget({
+  "container_id": "tv-medium-widget-208a5",
+  "symbols": [
+    [
+      "<%= @widget_symbol %>",
+      "<%= @widget_symbol %>"
+
+    ]
+  ],
+  "gridLineColor": "#e9e9ea",
+  "fontColor": "#83888D",
+  "underLineColor": "#dbeffb",
+  "trendLineColor": "rgba(255, 0, 0, 1)",
+  "width": "1000px",
+  "height": "350px",
+  "locale": "en"
+});
+</script>
+
+<!-- TradingView Widget END -->
+<div style="text-align:center" class="">
+
+
+<iframe frameborder="30" scrolling="no" height="450" width="420" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/profit-calculator/index.php?force_lang=1&acc=12&pair=1"></iframe><br />
+</span></span>
+</div>
+
+
+
+<h1 style="text-align:center" ><%= @current_result['results'][0]['name'] %></h1>
+
+<a href="/transaction/follow/<%= @current_result['results'][0]['symbol'] %>" class="btn btn-default btn-lg btn-block" data-method='POST'>Follow Stock</a>
+
 
 <div class="results">
-<h2>Current Information</h2>
-  <table>
-    <tr>
+<h2 style="text-align:center">Current Information</h2>
+  <table class="table table-striped table-hover ">
+    <tr class="warning">
       <thead>
         <th>Symbol</th>
         <th>Exchange</th>
@@ -17,7 +53,7 @@
       </thead>
     </tr>
     <% @current_result['results'].each do |result| %>
-    <tr>
+    <tr class="active">
       <td><%=result["symbol"]%></td>
       <td><%=result["exchange"]%></td>
       <td><%=result["lastPrice"]%></td>
@@ -30,14 +66,13 @@
   </table>
 </div>
 
-<br>
 <hr>
-<br>
+
 
 <div class="results">
-  <h2>Historical Information</h2>
-  <table>
-    <tr>
+  <h2 style="text-align:center">Historical Information</h2>
+  <table class="table table-striped table-hover ">
+    <tr class="info">
       <thead>
         <th>Symbol</th>
         <th>Trading Day</th>
@@ -51,13 +86,13 @@
 
     <% @historical_result['results'].each do |result| %>
     <tr>
-      <td><%= result["symbol"] %></td>
+      <td class="info"><%= result["symbol"] %></td>
       <td><%= result["tradingDay"] %></td>
-      <td><%= result["open"] %></td>
+      <td class="info"><%= result["open"] %></td>
       <td><%= result["high"] %></td>
-      <td><%= result["low"] %></td>
+      <td class="info"><%= result["low"] %></td>
       <td><%= result["close"] %></td>
-      <td><%= result["volume"] %></td>
+      <td class="info"><%= result["volume"] %></td>
     </tr>
     <% end %>
   </table>
