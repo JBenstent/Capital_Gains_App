@@ -1,19 +1,16 @@
 class TransactionController < ApplicationController
 
   def index
-
     if !session[:user]
       redirect_to "/login"
     else
     @ticker_follows = Ticker.all
     render "/transaction/index"
     end
-     
   end
+
   def search
-
   symbol = params[:ticker]
-
 
     #HISTORICAL
     @historical_result = HTTParty.get("http://marketdata.websol.barchart.com/getHistory.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbol=#{symbol}&type=daily&startDate=20160327")
@@ -51,7 +48,57 @@ class TransactionController < ApplicationController
   end
 
   def purchase_stock
+    if !session[:user]
+      redirect_to "/login"
+    else
+    @ticker_follows = Ticker.all
+    symbol = params[:ticker]
+    @stockpurchase = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
+    render "index"
+    end
   end
+
+  def sell_stock
+    if !session[:user]
+      redirect_to "/login"
+    else
+    @ticker_follows = Ticker.all
+    symbol = params[:ticker]
+    @stocksell = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
+    render "index"
+    end
+  end
+
+
+
+
+  def confirmation
+    if params[:process] == "buy"
+      @user = User.find(session[:user_id])
+      @cost = params[:quantity].to_f * params[:price].to_f
+      puts '/' * 50
+      puts @cost
+
+      @funds = @user.checking_account - @cost
+      puts '/' * 50
+      puts @funds
+
+      @user.checking_account = @funds
+      puts @user.checking_account
+      @user.save
+
+      Transaction.create(user_id: session[:user_id], quantity: params[:quantity],purchase_price: params[:price],ticker_symbol: params[:ticker])
+    redirect_to "/transaction/index"
+    end
+
+    if params[:process] == "sell"
+
+    redirect_to "/transaction/index"
+    end
+  end
+
+
+
 
   def follow
     Ticker.create(user_id: session[:user_id], ticker_symbol: params[:ticker])

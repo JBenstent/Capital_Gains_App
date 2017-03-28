@@ -3,29 +3,24 @@ Rails.application.routes.draw do
 # Transaction POST routes
 post "transaction/follow/:ticker" => "transaction#follow"
 post "transaction/unfollow/:id" => "transaction#unfollow"
-
+post "transaction/confirmation/:process" =>
+"transaction#confirmation"
 
 #Transaction GET routes
 get "transaction/index"
 get "transaction/search"
+get "transaction/purchase/:ticker" => "transaction#purchase_stock"
+get "transaction/sell/:ticker" => "transaction#sell_stock"
+
 root "transaction#index"
 
 # User POST routes
 post "create/user" => "user#create_user"
 post "user/login" => "user#login"
 
-post "transaction/follow"
-get "login" => "user#loginreg"
-
-#User GET routes
-get "/logout" => "user#logout"
-get "account" => "transaction#account"
-
-
 #User GET routes
 get "/logout" => "user#logout"
 get "login" => "user#loginreg"
-
 
 
   # The priority is based upon order of creation: first created -> highest priority.
