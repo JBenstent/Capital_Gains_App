@@ -1,3 +1,9 @@
+<style media="screen">
+	.Purchase_Sell_Stock{
+		display: inline-block;
+	}
+</style>
+
 <h1>Index Page</h1>
 
 <% if flash[:errors] %>
@@ -27,6 +33,8 @@
 <% @stock['results'].each do |result| %>
 <p><%=result["name"] %></p>
 <a href="/transaction/unfollow/<%=ticker.id %> " data-method='POST'>Unfollow</a>
+<a href="/transaction/purchase/<%= ticker.ticker_symbol %>">Purchase Stock</a>
+<a href="/transaction/sell/<%=ticker.ticker_symbol %>">Sell Stock</a>
 <table>
 	<tr>
 		<thead>
@@ -47,4 +55,59 @@
 	</tr>
 	<% end %>
 </table>
+<% end %>
+
+<hr>
+
+<% if @stockpurchase %>
+<div class="Purchase_Sell_Stock">
+	<h3>Purchase Stock</h3>
+	<form class="transaction" action="/transaction/confirmation/buy" method="post">
+		<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
+		<p>Stock: <input type="text" name="ticker" value="<%=@stockpurchase['results'][0]['symbol'] %>"></p>
+
+		<% @price =  @stockpurchase['results'][0]['lastPrice'] %>
+		<p>Price: <input type="text" name="price" class="price" value="<%=@price %>"></p>
+		<p>Quantity: <input type="text" name="quantity" class="quantity" value=""></p>
+		<p>Cost: $<span class='result'></span></p>
+
+		<input type="submit" name="" value="Buy">
+	</form>
+</div>
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.quantity').keyup(function(){
+		$('.result').text($('.price').val() * $('.quantity').val());
+	});
+});
+</script>
+
+
+<% if @stocksell %>
+<div class="Purchase_Sell_Stock">
+	<h3>Sell Stock</h3>
+	<form class="transaction" action="/transaction/confirmation/sell" method="post">
+		<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
+
+		<p>Stock: <input type="text" name="ticker" value="<%= @stocksell['results'][0]['symbol'] %>"></p>
+
+
+
+
+
+
+		<p>Price: <input type="text" name="price" value="<%= @stocksell['results'][0]['lastPrice'] %>"></p>
+
+
+		<p>Quantity: <input type="text" name="quantity" value=""></p>
+		<input type="submit" name="" value="Sell">
+
+
+
+
+
+	</form>
+</div>
 <% end %>
