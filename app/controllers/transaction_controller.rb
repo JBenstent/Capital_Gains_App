@@ -8,20 +8,16 @@ class TransactionController < ApplicationController
       @ticker_follows = Ticker.all
       render "/transaction/index"
     end
-<<<<<<< HEAD
     render "/transaction/index"
   end
 
 
 
   def search
-
   @widget_symbol = params[:ticker]
-=======
   end
 
   def search
->>>>>>> 533d85510e44787672fa55bbb5cdc07c5ed4c1a6
   symbol = params[:ticker]
 
     #HISTORICAL
