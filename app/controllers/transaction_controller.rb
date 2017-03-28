@@ -6,10 +6,15 @@ class TransactionController < ApplicationController
     else
       @ticker_follows = Ticker.all
       @user = User.find(session[:user_id])
+
       @stockbalance = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').sum(:quantity)
+
+      @stock_owned = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').group(:ticker_symbol).sum(:quantity)
+
       render "/transaction/index"
     end
   end
+
 
   def search
     @widget_symbol = params[:ticker]
@@ -60,6 +65,15 @@ class TransactionController < ApplicationController
       symbol = params[:ticker]
       @stockpurchase = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
       render "index"
+      @user = User.find(session[:user_id])
+      @stock_owned = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').group(:ticker_symbol).sum(:quantity)
+
+
+
+      @ticker_follows = Ticker.all
+      symbol = params[:ticker]
+      @stockpurchase = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
+      render "index"
     end
   end
 
@@ -68,7 +82,8 @@ class TransactionController < ApplicationController
       redirect_to "/login"
     else
     @user = User.find(session[:user_id])
-    @stockbalance = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').sum(:trade_price)
+    @stock_owned = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').group(:ticker_symbol).sum(:quantity)
+
     @ticker_follows = Ticker.all
     symbol = params[:ticker]
     @stocksell = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
