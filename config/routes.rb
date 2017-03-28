@@ -12,10 +12,11 @@ root "transaction#index"
 post "create/user" => "user#create_user"
 post "user/login" => "user#login"
 post "transaction/follow"
+get "login" => "user#loginreg"
 
 #User GET routes
-post "user/login" => "user#login"
 get "/logout" => "user#logout"
+get "account" => "transaction#account"
 
 
   # The priority is based upon order of creation: first created -> highest priority.

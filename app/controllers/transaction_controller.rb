@@ -1,11 +1,17 @@
 class TransactionController < ApplicationController
 
   def index
-  render "/transaction/index"
-  end
+    if !session[:user]
+      redirect_to "/login"
+    else
 
+    render "/transaction/index"
+    end
+  end
   def search
+
   symbol = params[:ticker]
+
 
     #HISTORICAL
     @historical_result = HTTParty.get("http://marketdata.websol.barchart.com/getHistory.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbol=#{symbol}&type=daily&startDate=20160327")
@@ -35,6 +41,14 @@ class TransactionController < ApplicationController
       @current_result =HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
       render "/transaction/results"
     end
+  end
+
+  def account
+    @withdrawable_cash = session[:user]['checking_account']
+    render "account"
+  end
+
+  def purchase_stock
   end
 
   def follow
