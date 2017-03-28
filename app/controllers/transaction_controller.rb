@@ -8,18 +8,14 @@ class TransactionController < ApplicationController
       @ticker_follows = Ticker.all
       render "/transaction/index"
     end
+
+    render "/transaction/index"
+
   end
 
 
-
   def search
-
   @widget_symbol = params[:ticker]
-
-  end
-
-  def search
-
   symbol = params[:ticker]
 
     #HISTORICAL
@@ -80,35 +76,30 @@ class TransactionController < ApplicationController
   end
 
 
-
-
   def confirmation
     if params[:process] == "buy"
       @user = User.find(session[:user_id])
       @cost = params[:quantity].to_f * params[:price].to_f
-      puts '/' * 50
-      puts @cost
-
       @funds = @user.checking_account - @cost
-      puts '/' * 50
-      puts @funds
-
       @user.checking_account = @funds
-      puts @user.checking_account
       @user.save
+      return render json: @user.errors
 
-      Transaction.create(user_id: session[:user_id], quantity: params[:quantity],purchase_price: params[:price],ticker_symbol: params[:ticker])
-    redirect_to "/transaction/index"
+      Transaction.create(user_id: session[:user_id], quantity: params[:quantity],current_price: params[:price],ticker_symbol: params[:ticker], transaction_type: 'buy', trade_price: @cost )
+      redirect_to "/transaction/index"
     end
 
     if params[:process] == "sell"
+      @user = User.find(session[:user_id])
+      @proceeds = params[:quantity].to_f * params[:price].to_f
+      @funds = @user.checking_account + @proceeds
+      @user.checking_account = @funds
+      @user.save
 
+      Transaction.create(user_id: session[:user_id], quantity: params[:quantity],current_price: params[:price],ticker_symbol: params[:ticker],transaction_type: 'sell', trade_price: @proceeds )
     redirect_to "/transaction/index"
     end
   end
-
-
-
 
   def follow
     Ticker.create(user_id: session[:user_id], ticker_symbol: params[:ticker])

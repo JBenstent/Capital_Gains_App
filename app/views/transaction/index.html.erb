@@ -65,12 +65,10 @@
 	<form class="transaction" action="/transaction/confirmation/buy" method="post">
 		<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
 		<p>Stock: <input type="text" name="ticker" value="<%=@stockpurchase['results'][0]['symbol'] %>"></p>
-
 		<% @price =  @stockpurchase['results'][0]['lastPrice'] %>
 		<p>Price: <input type="text" name="price" class="price" value="<%=@price %>"></p>
 		<p>Quantity: <input type="text" name="quantity" class="quantity" value=""></p>
 		<p>Cost: $<span class='result'></span></p>
-
 		<input type="submit" name="" value="Buy">
 	</form>
 </div>
@@ -90,23 +88,12 @@ $(document).ready(function(){
 	<h3>Sell Stock</h3>
 	<form class="transaction" action="/transaction/confirmation/sell" method="post">
 		<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
-
 		<p>Stock: <input type="text" name="ticker" value="<%= @stocksell['results'][0]['symbol'] %>"></p>
-
-
-
-
-
-
-		<p>Price: <input type="text" name="price" value="<%= @stocksell['results'][0]['lastPrice'] %>"></p>
-
-
-		<p>Quantity: <input type="text" name="quantity" value=""></p>
+		<% @price =  @stocksell['results'][0]['lastPrice'] %>
+		<p>Price: <input type="text" name="price" class="price" value="<%= @price %>"></p>
+		<p>Quantity: <input type="text" name="quantity" class="quantity" value=""></p>
+		<p>Proceeds: $<span class='result'></span></p>
 		<input type="submit" name="" value="Sell">
-
-
-
-
 
 	</form>
 </div>
