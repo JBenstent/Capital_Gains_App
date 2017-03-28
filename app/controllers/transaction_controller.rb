@@ -11,12 +11,10 @@ class TransactionController < ApplicationController
     end
   end
 
-
-  def search
-  @widget_symbol = params[:ticker]
   end
 
   def search
+  @widget_symbol = params[:ticker]
   symbol = params[:ticker]
 
     #HISTORICAL
@@ -97,7 +95,7 @@ class TransactionController < ApplicationController
       @user.save
 
       Transaction.create(user_id: session[:user_id], quantity: params[:quantity],current_price: params[:price],ticker_symbol: params[:ticker], transaction_type: 'buy', trade_price: @cost )
-    redirect_to "/transaction/index"
+      redirect_to "/transaction/index"
     end
 
     if params[:process] == "sell"
