@@ -39,13 +39,12 @@ ActiveRecord::Schema.define(version: 20170328162133) do
     t.string   "email"
     t.string   "password_digest"
     t.integer  "checking_account"
-    t.string   "address"
     t.string   "city"
     t.string   "state"
     t.integer  "zip"
-    t.integer  "phone"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "phone",            limit: 32
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
 end

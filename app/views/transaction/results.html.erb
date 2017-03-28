@@ -23,20 +23,37 @@ new TradingView.MediumWidget({
 });
 </script>
 
-<!-- TradingView Widget END -->
-<div style="text-align:center" class="">
 
+<button class="btn btn-info" id="myBtn">Profitability Calculator</button>
+<div id="profitCalculator" class="modal">
+  <div id="model-dialog" class="modal-content" style="text-align:center">
+    <span data-dismiss="modal" aria-hidden="true" class="close">&times;</span>
+    <div class="model-header">
+    <iframe  style="text-align:center" frameborder="30" scrolling="no" height="420" width="420" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/profit-calculator/index.php?force_lang=1&acc=12&pair=1"></iframe>
+  </div>
+  </div>
 
-<iframe frameborder="30" scrolling="no" height="450" width="420" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/profit-calculator/index.php?force_lang=1&acc=12&pair=1"></iframe><br />
-</span></span>
 </div>
 
-
+<script>
+var modal = document.getElementById('profitCalculator');
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+    modal.style.display = "table";
+}
+span.onclick = function() {
+    modal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 
 <h1 style="text-align:center" ><%= @current_result['results'][0]['name'] %></h1>
-
-<a href="/transaction/follow/<%= @current_result['results'][0]['symbol'] %>" class="btn btn-default btn-lg btn-block" data-method='POST'>Follow Stock</a>
-
+<a href="/transaction/follow/<%= @current_result['results'][0]['symbol'] %>" class="btn btn-info btn-lg btn-block" data-method='POST'>Follow Stock</a>
 
 <div class="results">
 <h2 style="text-align:center">Current Information</h2>
