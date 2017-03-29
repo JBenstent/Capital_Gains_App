@@ -2,6 +2,18 @@
 	.Purchase_Sell_Stock{
 		display: inline-block;
 	}
+
+	.AccountSnapshot, .Portfolio{
+		display: inline-block;
+		vertical-align: top;
+		margin-right: 40px;
+	}
+	.Watchlist{
+		display: :inline-block;
+	}
+	}
+
+
 </style>
 
 <h1>Capital Gains</h1>
@@ -22,26 +34,18 @@
 <a href="/logout">Logout</a>
 <a href="/account">Account</a>
 
-<br>
-<br>
 <hr>
-
-<h2>Account Snapshot</h2>
 
 <div class="AccountSnapshot">
-<p>Cash Balance: $<%= @user.checking_account %></p>
-<p>Stocks: $ <%= @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %></p>
-<p>Cash+Stocks: $ <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %> </p>
-
+<h2>Account Snapshot</h2>
+<p><strong>Cash Balance:</strong> $<%= @user.checking_account %></p>
+<p><strong>Stocks:</strong> $ <%= @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %></p>
+<p><strong>Cash+Stocks:</strong> $ <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %> </p>
 </div>
-
-<br>
-<br>
-<hr>
 
 <div class="Portfolio">
 	<h2>Portfolio</h2>
-	<table>
+	<table class="table table-striped">
 		<tr>
 			<thead>
 				<th>Stock</th>
@@ -55,9 +59,16 @@
 		<% @shares_owned.each do |stock| %>
 		<tr>
 			<td><%= stock[0] %></td>
+			
+			<% if @shares_sold[stock[0]].nil? %>
+			<% @shares_sold[stock[0]] = 0 %>
+			<% elsif stock[1].nil? %>
+			<% stock[1] = 0 %>
+			<% end %>
+
 			<td><%= @shares = stock[1] - @shares_sold[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] %></td>
-			<td>$ <%=  @price[stock[0]]* @shares %></td>
+			<td>$ <%=  @price[stock[0]] * @shares %></td>
 			<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
 		</tr>
 
@@ -70,13 +81,16 @@
 <br>
 <hr>
 
+
+
+<div class="Watchlist">
 <h2>Watchlist</h2>
 <% @ticker_follows.each do |ticker| %>
 <% @stock = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{ticker.ticker_symbol}") %>
 <% @stock['results'].each do |result| %>
 <h4><%=result["name"] %></h4>
 
-<table>
+<table class="table table-striped">
 	<tr>
 		<thead>
 			<th>Last Price</th>
@@ -100,6 +114,7 @@
 	<% end %>
 </table>
 <% end %>
+</div>
 
 <hr>
 

@@ -10,9 +10,13 @@ class TransactionController < ApplicationController
       @portfolio_owned = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').group(:user_id).sum(:trade_price)
       @portfolio_sold = Transaction.where(user_id: session[:user_id], transaction_type: 'sell').group(:user_id).sum(:trade_price)
 
-
       @shares_owned = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').group(:ticker_symbol).sum(:quantity)
       @shares_sold = Transaction.where(user_id: session[:user_id], transaction_type: 'sell').group(:ticker_symbol).sum(:quantity)
+
+      puts '/' * 200
+      puts @shares_owned
+      puts @shares_sold
+
 
       @price ={}
       @shares_owned.each do |stock|
@@ -79,7 +83,7 @@ class TransactionController < ApplicationController
       @ticker_follows = Ticker.all
       symbol = params[:ticker]
       @stockpurchase = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
-      render "index"
+
       @user = User.find(session[:user_id])
       @stock_owned = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').group(:ticker_symbol).sum(:quantity)
 
@@ -88,24 +92,13 @@ class TransactionController < ApplicationController
       @shares_sold = Transaction.where(user_id: session[:user_id], transaction_type: 'sell').group(:ticker_symbol).sum(:quantity)
 
       @price ={}
+
       @shares_owned.each do |stock|
         stockprice = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{stock[0]}&type=daily&startDate=20160327")
         sprice = stockprice['results'][0]['lastPrice']
         @price[stock[0]]=sprice
       end
-
-
-    @ticker_follows = Ticker.all
-    symbol = params[:ticker]
-
-    @stockpurchase = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
     render "index"
-
-      @ticker_follows = Ticker.all
-      symbol = params[:ticker]
-      @stockpurchase = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{symbol}")
-      render "index"
-
     end
   end
 
@@ -143,7 +136,7 @@ class TransactionController < ApplicationController
       @user.checking_account = @funds
       @user.save
 
-      Transaction.create(user_id: session[:user_id], quantity: params[:quantity],current_price: params[:price],ticker_symbol: params[:ticker], transaction_type: 'buy', historic_price: params[:price].to_f , trade_price: @cost )
+      Transaction.create(user_id: session[:user_id], quantity: params[:quantity],current_price: params[:price],ticker_symbol: params[:ticker], transaction_type: 'buy', historic_price: params[:price].to_f , trade_price: @cost)
       redirect_to "/transaction/index"
     end
 
