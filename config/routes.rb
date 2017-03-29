@@ -9,8 +9,8 @@ post "transaction/confirmation/:process" =>
 #Transaction GET routes
 get "transaction/index"
 get "transaction/search"
-get "transaction/purchase/:ticker" => "transaction#purchase_stock"
 get "transaction/sell/:ticker" => "transaction#sell_stock"
+get "transaction/purchase/:ticker" => "transaction#purchase_stock"
 
 root "transaction#index"
 

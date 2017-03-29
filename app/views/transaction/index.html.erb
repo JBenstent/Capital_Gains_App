@@ -55,6 +55,11 @@
 		<% @shares_owned.each do |stock| %>
 		<tr>
 			<td><%= stock[0] %></td>
+			<% if @shares_sold[stock[0]].nil? %>
+			<% @shares_sold[stock[0]] = 0 %>
+			<% elsif stock[1].nil? %>
+			<% stock[1] = 0 %>
+			<% end %>
 			<td><%= @shares = stock[1] - @shares_sold[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]]* @shares %></td>
