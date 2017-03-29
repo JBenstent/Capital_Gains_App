@@ -30,8 +30,8 @@
 
 <div class="AccountSnapshot">
 <p>Cash Balance: $<%= @user.checking_account %></p>
-<p>Stocks: $</p>
-<p>Cash+Stocks: $</p>
+<p>Stocks: $ <%= @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %></p>
+<p>Cash+Stocks: $ <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %> </p>
 
 </div>
 
@@ -45,21 +45,26 @@
 		<tr>
 			<thead>
 				<th>Stock</th>
-				<th>Quantity Owned</th>
+				<th>Shares Owned</th>
 				<th>Current Price</th>
+				<th>Value</th>
 				<th>Action</th>
 			</thead>
 		</tr>
-		<% @stock_owned.each do |stock| %>
+
+		<% @shares_owned.each do |stock| %>
 		<tr>
 			<td><%= stock[0] %></td>
-			<td><%= stock[1] %></td>
-			<td></td>
+			<td><%= @shares = stock[1] - @shares_sold[stock[0]] %></td>
+			<td>$ <%=  @price[stock[0]] %></td>
+			<td>$ <%=  @price[stock[0]]* @shares %></td>
 			<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
 		</tr>
+
 		<% end %>
 	</table>
 </div>
+
 
 <br>
 <br>
@@ -84,10 +89,10 @@
 	</tr>
 
 	<tr>
-		<td><%=result["lastPrice"]%></td>
-		<td><%=result["open"]%></td>
-		<td><%=result["high"]%></td>
-		<td><%=result["low"]%></td>
+		<td>$<%=result["lastPrice"]%></td>
+		<td>$<%=result["open"]%></td>
+		<td>$<%=result["high"]%></td>
+		<td>$<%=result["low"]%></td>
 		<td><%=result["volume"]%></td>
 		<td><a href="/transaction/unfollow/<%=ticker.id %> " data-method='POST'>Unfollow</a>
 		<a href="/transaction/purchase/<%= ticker.ticker_symbol %>">Purchase Stock</a></td>

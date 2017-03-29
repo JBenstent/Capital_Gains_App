@@ -5,6 +5,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.integer :current_price
       t.string :ticker_symbol
       t.integer :quantity
+      t.string :historic_price
       t.string :trade_price
       t.string :transaction_type
       t.timestamps null: false
