@@ -1,4 +1,5 @@
 <!-- TradingView Widget BEGIN -->
+
 <div id="tv-medium-widget-208a5"></div>
 
 
@@ -23,19 +24,24 @@ new TradingView.MediumWidget({
 });
 </script>
 
+<br>
 
 <button class="btn btn-info" id="myBtn">Profitability Calculator</button>
 <div id="profitCalculator" class="modal">
   <div id="model-dialog" class="modal-content" style="text-align:center">
     <span data-dismiss="modal" aria-hidden="true" class="close">&times;</span>
     <div class="model-header">
-    <iframe  style="text-align:center" frameborder="30" scrolling="no" height="420" width="420" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/profit-calculator/index.php?force_lang=1&acc=12&pair=1"></iframe>
+      <iframe  style="text-align:center" frameborder="30" scrolling="no" height="420" width="420" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/profit-calculator/index.php?force_lang=1&acc=12&pair=1"></iframe>
+    </div>
   </div>
-  </div>
-
 </div>
 
+<!-- API KEY: zKX13rAGJYBCMPSvKjEr -->
+
 <script>
+(function () {
+
+
 var modal = document.getElementById('profitCalculator');
 var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
@@ -45,46 +51,108 @@ btn.onclick = function() {
 span.onclick = function() {
     modal.style.display = "none";
 }
-window.onclick = function(event) {
-    if (event.target == modal) {
+$(document).click(function(event) {
+    if (event.target !== modal && event.target !== btn) {
         modal.style.display = "none";
     }
-}
+});
+
+})();
+
 </script>
+
+
+
+
+
+<button class="btn pull-right btn-info" id="myBtnH">Historical Information</button>
+<div id="historical_info" class="modal">
+  <div id="model-dialog" class="modal-content" style="text-align:center">
+    <span data-dismiss="modal" aria-hidden="true" class="close">&times;</span>
+    <div class="model-header">
+      <p>
+      <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
+      <script type="text/javascript">
+      new TradingView.widget({
+        "width": 980,
+        "height": 610,
+        "symbol": "NASDAQ:AAPL",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "White",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "hideideas": true
+      });
+      </script>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+var modal = document.getElementById('historical_info');
+var btn = document.getElementById("myBtnH");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+    modal.style.display = "table";
+}
+span.onclick = function() {
+    modal.style.display = "none";
+}
+$(document).click(function(event) {
+    if (event.target !== modal && event.target !== btn) {
+        modal.style.display = "none";
+    }
+});
+})();
+</script>
+
+<!-- TradingView Widget BEGIN -->
+<!-- TradingView Widget END -->
+
+
+
+
+
+
+
 
 <h1 style="text-align:center" ><%= @current_result['results'][0]['name'] %></h1>
 <a href="/transaction/follow/<%= @current_result['results'][0]['symbol'] %>" class="btn btn-info btn-lg btn-block" data-method='POST'>Follow Stock</a>
 
 <div class="results">
-<h2 style="text-align:center">Current Information</h2>
-  <table class="table table-striped table-hover ">
-    <tr class="warning">
-      <thead>
-        <th>Symbol</th>
-        <th>Exchange</th>
-        <th>Last Price</th>
-        <th>Open</th>
-        <th>High</th>
-        <th>Low</th>
-        <th>Volume</th>
-      </thead>
-    </tr>
-    <% @current_result['results'].each do |result| %>
-    <tr class="active">
-      <td><%=result["symbol"]%></td>
-      <td><%=result["exchange"]%></td>
-      <td><%=result["lastPrice"]%></td>
-      <td><%=result["open"]%></td>
-      <td><%=result["high"]%></td>
-      <td><%=result["low"]%></td>
-      <td><%=result["volume"]%></td>
-    </tr>
-    <% end %>
-  </table>
+    <h2 style="text-align:center">Current Information</h2>
+    <table class="table table-striped ">
+      <tr class="warning">
+        <thead>
+          <th>Symbol</th>
+          <th>Exchange</th>
+          <th>Last Price</th>
+          <th>Open</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Volume</th>
+        </thead>
+      </tr>
+      <% @current_result['results'].each do |result| %>
+      <tr class="active">
+        <td><%=result["symbol"]%></td>
+        <td><%=result["exchange"]%></td>
+        <td><%=result["lastPrice"]%></td>
+        <td><%=result["open"]%></td>
+        <td><%=result["high"]%></td>
+        <td><%=result["low"]%></td>
+        <td><%=result["volume"]%></td>
+      </tr>
+      <% end %>
+    </table>
 </div>
-
-<hr>
-
 
 <div class="results">
   <h2 style="text-align:center">Historical Information</h2>
