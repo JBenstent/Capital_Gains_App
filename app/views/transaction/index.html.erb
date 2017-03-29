@@ -3,21 +3,36 @@
 		display: inline-block;
 	}
 
-	.AccountSnapshot, .Portfolio{
+	h1, .userFunction{
+		display: inline-block;
+		margin-right: 300px;
+	}
+
+	.userLinks{
+		font-size: 20px;
+		margin-right: 10px;
+	}
+
+	.AccountSnapshot, .Portfolio, .stockAllocation{
 		display: inline-block;
 		vertical-align: top;
 		margin-right: 40px;
 	}
+
 	.Watchlist{
 		display: :inline-block;
 	}
 	}
-
-
 </style>
+
+
 
 <h1>Capital Gains</h1>
 
+<div class="userFunction">
+	<a href="/logout" class="userLinks">Logout</a>
+	<a href="/account" class="userLinks">Account</a>
+</div>
 <% if flash[:errors] %>
 	<% flash[:errors].each do |msg| %>
   <ul>
@@ -26,15 +41,17 @@
   <%end%>
 <%end%>
 
-<form action="/transaction/search" method="get">
-  Ticker: <input type="text" name="ticker" value="">
-  <input type="submit" value="submit">
-</form>
+<div class="tickerSearch">
+	<form action="/transaction/search" method="get">
+		Ticker: <input type="text" name="ticker" value="">
+		<input type="submit" value="submit">
+	</form>
+</div>
 
-<a href="/logout">Logout</a>
-<a href="/account">Account</a>
 
 <hr>
+
+
 
 <div class="AccountSnapshot">
 <h2>Account Snapshot</h2>
@@ -42,6 +59,8 @@
 <p><strong>Stocks:</strong> $ <%= @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %></p>
 <p><strong>Cash+Stocks:</strong> $ <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %> </p>
 </div>
+
+
 
 <div class="Portfolio">
 	<h2>Portfolio</h2>
@@ -56,16 +75,15 @@
 			</thead>
 		</tr>
 
+
 		<% @shares_owned.each do |stock| %>
 		<tr>
 			<td><%= stock[0] %></td>
-			
 			<% if @shares_sold[stock[0]].nil? %>
-			<% @shares_sold[stock[0]] = 0 %>
-			<% elsif stock[1].nil? %>
-			<% stock[1] = 0 %>
+				<% @shares_sold[stock[0]] = 0 %>
+				<% elsif stock[1].nil? %>
+				<% stock[1] = 0 %>
 			<% end %>
-
 			<td><%= @shares = stock[1] - @shares_sold[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] * @shares %></td>
@@ -76,6 +94,10 @@
 	</table>
 </div>
 
+<div class="stockAllocation">
+	<h2>Portfolio Allocation</h2>
+	<div id="piechart" style="width: 700px; height: 500px;"></div>
+</div>
 
 <br>
 <br>
@@ -160,8 +182,38 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+
 	$('.quantity').keyup(function(){
 		$('.result').text($('.price').val() * $('.quantity').val());
 	});
+
+	google.charts.load('current', {'packages':['corechart']});
+       google.charts.setOnLoadCallback(drawChart);
+
+
+
+		function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+				['Stock', 'Value'],
+				<% @shares_owned.each do |stock| %>
+					<% if @shares_sold[stock[0]].nil? %>
+						<% @shares_sold[stock[0]] = 0 %>
+						<% elsif stock[1].nil? %>
+						<% stock[1] = 0 %>
+					<% end %>
+
+				<!-- finish this tomorrow -->
+
+           ['<%= stock[0] %>',<%=  @price[stock[0]] * @shares %> ],
+
+				<% end %>
+
+         ]);
+         var options = {
+         };
+         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+         chart.draw(data, options);
+       }
 });
 </script>
