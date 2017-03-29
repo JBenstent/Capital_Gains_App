@@ -31,13 +31,17 @@ new TradingView.MediumWidget({
   <div id="model-dialog" class="modal-content" style="text-align:center">
     <span data-dismiss="modal" aria-hidden="true" class="close">&times;</span>
     <div class="model-header">
-    <iframe  style="text-align:center" frameborder="30" scrolling="no" height="420" width="420" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/profit-calculator/index.php?force_lang=1&acc=12&pair=1"></iframe>
-  </div>
+      <iframe  style="text-align:center" frameborder="30" scrolling="no" height="420" width="420" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/profit-calculator/index.php?force_lang=1&acc=12&pair=1"></iframe>
+    </div>
   </div>
 </div>
 
+<!-- API KEY: zKX13rAGJYBCMPSvKjEr -->
 
 <script>
+(function () {
+
+
 var modal = document.getElementById('profitCalculator');
 var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
@@ -47,12 +51,77 @@ btn.onclick = function() {
 span.onclick = function() {
     modal.style.display = "none";
 }
-window.onclick = function(event) {
-    if (event.target == modal) {
+$(document).click(function(event) {
+    if (event.target !== modal && event.target !== btn) {
         modal.style.display = "none";
     }
-}
+});
+
+})();
+
 </script>
+
+
+
+
+
+<button class="btn pull-right btn-info" id="myBtnH">Historical Information</button>
+<div id="historical_info" class="modal">
+  <div id="model-dialog" class="modal-content" style="text-align:center">
+    <span data-dismiss="modal" aria-hidden="true" class="close">&times;</span>
+    <div class="model-header">
+      <p>
+      <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
+      <script type="text/javascript">
+      new TradingView.widget({
+        "width": 980,
+        "height": 610,
+        "symbol": "NASDAQ:AAPL",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "White",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "hideideas": true
+      });
+      </script>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+var modal = document.getElementById('historical_info');
+var btn = document.getElementById("myBtnH");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+    modal.style.display = "table";
+}
+span.onclick = function() {
+    modal.style.display = "none";
+}
+$(document).click(function(event) {
+    if (event.target !== modal && event.target !== btn) {
+        modal.style.display = "none";
+    }
+});
+})();
+</script>
+
+<!-- TradingView Widget BEGIN -->
+<!-- TradingView Widget END -->
+
+
+
+
+
+
+
 
 <h1 style="text-align:center" ><%= @current_result['results'][0]['name'] %></h1>
 <a href="/transaction/follow/<%= @current_result['results'][0]['symbol'] %>" class="btn btn-info btn-lg btn-block" data-method='POST'>Follow Stock</a>
@@ -118,19 +187,3 @@ window.onclick = function(event) {
 <br>
 <a href="/logout">Logout</a>
 <a href="/account">Account</a>
-
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<div id="container" style="min-width: 300px; height: 300px; margin: 1em"></div>
-
-<script type="text/javascript">
-
-$('#container').highcharts({
-    xAxis: {
-        categories: ["United States", "Western Europe", "Canada",
-                     "Germany", "France", "Mexico"]
-    },
-    series: [{
-        data: [50, 100, 150, 200, 250, 300]
-    }]
-});
-</script>
