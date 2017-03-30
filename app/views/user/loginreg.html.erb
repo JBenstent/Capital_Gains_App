@@ -32,6 +32,89 @@
 		padding-top: 20px;
 		font-size: 80px;
 	}
+
+
+
+.container {
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+}
+
+#logbox {
+  padding: 10px;
+  margin: 50px auto;
+  width: 340px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+}
+
+h1 {
+  text-align: center;
+  font-size: 175%;
+  color: #757575;
+  font-weight: 300;
+}
+
+h1, input {
+  font-family: "Open Sans", Helvetica, sans-serif;
+}
+
+.input {
+  width: 75%;
+  height: 50px;
+  display: block;
+  margin: 0 auto 15px;
+  padding: 0 15px;
+  border: none;
+  border-bottom: 2px solid #ebebeb;
+}
+.input:focus {
+  outline: none;
+  border-bottom-color: #3CC !important;
+}
+.input:hover {
+  border-bottom-color: #dcdcdc;
+}
+.input:invalid {
+  box-shadow: none;
+}
+
+.pass:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+.inputButton {
+  position: relative;
+  width: 85%;
+  height: 50px;
+  display: block;
+  margin: 30px auto 30px;
+  color: white;
+  background-color: #3CC;
+  border: none;
+  -webkit-box-shadow: 0 5px 0 #2CADAD;
+  -moz-box-shadow: 0 5px 0 #2CADAD;
+  box-shadow: 0 5px 0 #2CADAD;
+}
+.inputButton:hover {
+  top: 2px;
+  -webkit-box-shadow: 0 3px 0 #2CADAD;
+  -moz-box-shadow: 0 3px 0 #2CADAD;
+  box-shadow: 0 3px 0 #2CADAD;
+}
+.inputButton:active {
+  top: 5px;
+  box-shadow: none;
+}
+.inputButton:focus {
+  outline: none;
+}
+
+
+
 </style>
 
 <div class="topBanner">
@@ -45,15 +128,57 @@
 
 
 	<div class="Wrapper">
+
+		<div class="col-md-6">
+	 	<div id="logbox">
+	 		<form id="signup" method="post" action="/user/login">
+	 			<h1>Account Login</h1>
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+	 			<input name="email" type="email" placeholder="enter your email" class="input pass"/>
+	 			<input name="password" type="password" placeholder="enter your password" required="required" class="input pass"/>
+	 			<input type="submit" value="Sign me in!" class="inputButton"/>
+			</form>
+	 	</div>
+	 	</div>
+
+
+
+
+	<div class="container">
+		<div class="col-md-6">
+		<div id="logbox">
+			<form id="signup" method="post" action="/create/user">
+				<h1>Create Account</h1>
+				<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+				<input name="first_name" type="text" placeholder="First Name" pattern="^[\w]{3,16}$" autofocus="autofocus" required="required" class="input pass"/>
+				<input name="last_name" type="text" placeholder="Last Name" pattern="^[\w]{3,16}$" autofocus="autofocus" required="required" class="input pass"/>
+				<input name="email" type="email" placeholder="Email Address" class="input pass"/>
+				<input name="password" type="password" placeholder="Choose a password" required="required" class="input pass"/>
+				<input name="confirm_pw" type="password" placeholder="Confirm password" required="required" class="input pass"/>
+
+				<input name="city" type="text" placeholder="City" class="input pass"/>
+				<input name="state" type="text" placeholder="State" class="input pass"/>
+				<input name="zip" type="text" placeholder="Zip" class="input pass"/>
+				<input name="phone" type="text" placeholder="Phone" class="input pass"/>
+				<input type="submit" value="Sign me up!" class="inputButton"/>
+				<div class="text-center">
+						already have an account? <a href="#" id="login_id">login</a>
+				</div>
+			</form>
+		</div>
+	 </div>
+		<!--col-md-6-->
+
 	<div class="text-left">
 		<div class="userInfo">
 			<h4 class='text-center'>Registration</h4>
 			<form class="" action="/create/user" method="post">
 				<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
 				<h4 class='text-left'>User Credentials: </h4>
-				<p>First Name: <input type="text" name="first_name" value=""></p>
+				<!-- <p>First Name: <input type="text" name="first_name" value=""></p>
 				<p>Last Name: <input type="text" name="last_name" value=""></p>
-				<p>Email: <input type="text" name="email" value=""></p>
+				<p>Email: <input type="text" name="email" value=""></p> -->
 				<p>Password: <input type="text" name="password" value=""></p>
 				<p>Confirm Password: <input type="text" name="confirm_pw" value=""></p>
 				<h4 class= 'text-left'>Address:</h4>
@@ -65,18 +190,10 @@
 			</form>
 		</div>
 
-		<div class="userInfo">
-			<h4 class='text-center'>Login</h4>
-			<form class="" action="/user/login" method="post">
-				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-				<p>Email: <input type="text" name="email" value=""></p>
-				<p>Password: <input type="text" name="password" value=""></p>
-				<input type="submit" name="" value="Login">
-			</form>
-		</div>
+
+
+
 	</div>
-
-
 
 	<div class="News">
 		<h3>Latest Financial News</h3>
@@ -106,4 +223,9 @@
 	</ul>
 	<%end%>
 	<%end%>
+</div>
+
+
+
+
 </div>
