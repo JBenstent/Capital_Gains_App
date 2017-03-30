@@ -13,10 +13,14 @@
 		margin-right: 10px;
 	}
 
-	.AccountSnapshot, .Portfolio, .stockAllocation{
+	.AccountSnapshot, .Portfolio{
 		display: inline-block;
 		vertical-align: top;
 		margin-right: 40px;
+	}
+
+	.stock_charts{
+		display: inline-block
 	}
 
 	.Watchlist{
@@ -50,9 +54,6 @@
 
 
 <hr>
-
-
-
 <div class="AccountSnapshot">
 <h2>Account Snapshot</h2>
 <p><strong>Cash Balance:</strong> $<%= @user.checking_account %></p>
@@ -60,10 +61,8 @@
 <p><strong>Cash+Stocks:</strong> $ <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %> </p>
 </div>
 
-
-
 <div class="Portfolio">
-	<h2>Portfolio</h2>
+	<h2>Current Portfolio</h2>
 	<table class="table table-striped">
 		<tr>
 			<thead>
@@ -94,10 +93,43 @@
 	</table>
 </div>
 
-<div class="stockAllocation">
+<div class="stock_charts">
 	<h2>Portfolio Allocation</h2>
-	<div id="piechart" style="width: 700px; height: 500px;"></div>
+	<div id="piechart" style="width: 400px; height: 275px;"></div>
 </div>
+
+<h2>Account Performance</h2>
+<div id="curve_chart" style="width: 700px; height: 400px"></div>
+
+
+
+<!-- TradingView Widget BEGIN -->
+<h2>Stock Performance</h2>
+<div id="tv-medium-widget-3e0dc"></div>
+<script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
+<script type="text/javascript">
+new TradingView.MediumWidget({
+  "container_id": "tv-medium-widget-3e0dc",
+  "symbols": [
+
+		<% @shares_owned.each do |stock| %>
+		[
+			"<%= stock[0] %>",
+			"<%= stock[0] %>"
+		],
+		<% end %>
+
+  ],
+  "gridLineColor": "rgba(233, 233, 234, 1)",
+  "fontColor": "#83888D",
+  "underLineColor": "#dbeffb",
+  "trendLineColor": "#4bafe9",
+  "width": "1000px",
+  "height": "350px",
+  "locale": "en"
+});
+</script>
+<!-- TradingView Widget END -->
 
 <br>
 <br>
@@ -188,32 +220,49 @@ $(document).ready(function(){
 	});
 
 	google.charts.load('current', {'packages':['corechart']});
-       google.charts.setOnLoadCallback(drawChart);
+       google.charts.setOnLoadCallback(drawAllocationChart);
+			 google.charts.setOnLoadCallback(drawAccountPerformanceChart);
 
+		function drawAllocationChart() {
 
-
-		function drawChart() {
 			var data = google.visualization.arrayToDataTable([
 				['Stock', 'Value'],
 				<% @shares_owned.each do |stock| %>
 					<% if @shares_sold[stock[0]].nil? %>
 						<% @shares_sold[stock[0]] = 0 %>
-						<% elsif stock[1].nil? %>
+					<% elsif stock[1].nil? %>
 						<% stock[1] = 0 %>
 					<% end %>
-
-				<!-- finish this tomorrow -->
-
-           ['<%= stock[0] %>',<%=  @price[stock[0]] * @shares %> ],
-
+					<% @shares = stock[1] - @shares_sold[stock[0]] %>
+           ['<%= stock[0] %>' ,<%=   @shares %>],
 				<% end %>
 
          ]);
          var options = {
          };
          var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
          chart.draw(data, options);
        }
+
+	 function drawAccountPerformanceChart() {
+       var data = google.visualization.arrayToDataTable([
+         ['Year', 'Cash', 'Stocks', 'Cash+Stocks'],
+         ['2014',  1000, 400, 1400],
+         ['2015',  1170, 460, 1630],
+         ['2016',  660, 1120, 1780],
+         ['2017',  <%= @user.checking_account %>, <%= @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %>, <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %>]
+       ]);
+
+       var options = {
+         title: 'Year Over Year',
+         curveType: 'function',
+         legend: { position: 'bottom' }
+       };
+
+       var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+       chart.draw(data, options);
+     }
+
 });
 </script>
