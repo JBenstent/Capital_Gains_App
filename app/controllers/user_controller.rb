@@ -33,4 +33,8 @@ class UserController < ApplicationController
     redirect_to "/login"
   end
 
+
+def account
+end
+
 end

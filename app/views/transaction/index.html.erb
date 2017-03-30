@@ -28,10 +28,13 @@
 		margin-right: 10px;
 	}
 
-	.AccountSnapshot, .Portfolio{
+	.Snapshots{
 		display: inline-block;
+	}
+
+	.AccountSnapshot, .Portfolio{
+		display: list-item;
 		vertical-align: top;
-		margin-right: 40px;
 	}
 
 	.stock_charts{
@@ -49,12 +52,22 @@
 		padding-top: 30px;
 	}
 
+	.accountHighlights{
+		background-color: #c8cac7;
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.components{
+		background-color: white;
+	}
+
 	}
 </style>
 
 
 <div class="topBanner">
-	<h1 class='center' id= 'title'>Capital Gains</h1>
+	<h1 class='center' id= 'title'>WU-TANG FINANCIAL</h1>
 
 	<div class="userFunction">
 		<a href="/logout" class="userLinks">Logout</a>
@@ -77,91 +90,102 @@
 <%end%>
 <%end%>
 
+<div class="Snapshots">
+	<div class="AccountSnapshot">
+		<h2>Account Snapshot</h2>
+		<div class="components">
+			<p><strong>Cash Balance:</strong> $<%= @user.checking_account %></p>
+			<p><strong>Stocks:</strong> $ <%= @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %></p>
+			<p><strong>Cash+Stocks:</strong> $ <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %> </p>
+		</div>
+	</div>
 
-<!-- TradingView Widget BEGIN -->
-<h2 class= 'center'> <%=@user.first_name %>'s Stock Performance</h2>
-<div id="tv-medium-widget-3e0dc"></div>
-<script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
-<script type="text/javascript">
-new TradingView.MediumWidget({
-  "container_id": "tv-medium-widget-3e0dc",
-  "symbols": [
-
-		<% @shares_owned.each do |stock| %>
-		[
-			"<%= stock[0] %>",
-			"<%= stock[0] %>"
-		],
-		<% end %>
-
-  ],
-  "gridLineColor": "rgba(233, 233, 234, 1)",
-  "fontColor": "#83888D",
-  "underLineColor": "#dbeffb",
-  "trendLineColor": "#4bafe9",
-  "width": "1000px",
-  "height": "350px",
-  "locale": "en"
-});
-</script>
-<!-- TradingView Widget END -->
+	<div class="Portfolio">
+		<h2>Current Portfolio</h2>
+		<table class="table table-striped">
+			<tr>
+				<thead>
+					<th>Stock</th>
+					<th>Shares Owned</th>
+					<th>Current Price</th>
+					<th>Value</th>
+					<th>Profit/Loss</th>
+					<th>Action</th>
+				</thead>
+			</tr>
 
 
-
-<div class="AccountSnapshot">
-<h2>Account Snapshot</h2>
-<p><strong>Cash Balance:</strong> $<%= @user.checking_account %></p>
-<p><strong>Stocks:</strong> $ <%= @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %></p>
-<p><strong>Cash+Stocks:</strong> $ <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %> </p>
-</div>
-
-<div class="Portfolio">
-	<h2>Current Portfolio</h2>
-	<table class="table table-striped">
-		<tr>
-			<thead>
-				<th>Stock</th>
-				<th>Shares Owned</th>
-				<th>Current Price</th>
-				<th>Value</th>
-				<th>Profit/Loss</th>
-				<th>Action</th>
-			</thead>
-		</tr>
-
-
-		<% @shares_owned.each do |stock| %>
-		<tr>
-			<td><%= stock[0] %></td>
+			<% @shares_owned.each do |stock| %>
+			<tr>
+				<td><%= stock[0] %></td>
 
 				<% if @shares_sold[stock[0]].nil? %>
-					<% @shares_sold[stock[0]] = 0 %>
-					<% elsif stock[1].nil? %>
-					<% stock[1] = 0 %>
-				<% end %>
-
-			<% if @shares_sold[stock[0]].nil? %>
 				<% @shares_sold[stock[0]] = 0 %>
 				<% elsif stock[1].nil? %>
 				<% stock[1] = 0 %>
+				<% end %>
+
+				<% if @shares_sold[stock[0]].nil? %>
+				<% @shares_sold[stock[0]] = 0 %>
+				<% elsif stock[1].nil? %>
+				<% stock[1] = 0 %>
+				<% end %>
+				<td><%= @shares = stock[1] - @shares_sold[stock[0]] %></td>
+				<td>$ <%=  @price[stock[0]] %></td>
+				<td>$ <%=  @price[stock[0]] * @shares %></td>
+				<td>Placeholder</td>
+				<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
+			</tr>
 			<% end %>
-			<td><%= @shares = stock[1] - @shares_sold[stock[0]] %></td>
-			<td>$ <%=  @price[stock[0]] %></td>
-			<td>$ <%=  @price[stock[0]] * @shares %></td>
-			<td>Placeholder</td>
-			<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
-		</tr>
-		<% end %>
-	</table>
+		</table>
+	</div>
 </div>
 
-<div class="stock_charts">
-	<h2>Portfolio Allocation</h2>
-	<div id="piechart" style="width: 400px; height: 275px;"></div>
-</div>
-<h2>Account Performance</h2>
-<div id="curve_chart" style="width: 700px; height: 400px"></div>
 
+<div class="accountHighlights">
+	<div class="tradingViewWidget">
+		<!-- TradingView Widget BEGIN -->
+		<h2 class= 'center'> <%=@user.first_name %>'s Stock Performance</h2>
+		<div id="tv-medium-widget-3e0dc"></div>
+		<script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
+		<script type="text/javascript">
+		new TradingView.MediumWidget({
+			"container_id": "tv-medium-widget-3e0dc",
+			"symbols": [
+
+				<% @shares_owned.each do |stock| %>
+				[
+					"<%= stock[0] %>",
+					"<%= stock[0] %>"
+				],
+				<% end %>
+
+			],
+			"gridLineColor": "rgba(233, 233, 234, 1)",
+			"fontColor": "#83888D",
+			"underLineColor": "#dbeffb",
+			"trendLineColor": "#4bafe9",
+			"width": "1000px",
+			"height": "350px",
+			"locale": "en"
+		});
+		</script>
+		<!-- TradingView Widget END -->
+	</div>
+
+
+
+	<div class="stock_charts">
+		<h2>Portfolio Allocation</h2>
+		<div id="piechart" style="width: 400px; height: 275px;"></div>
+	</div>
+
+
+	<div class="stock_charts">
+		<h2>Account Performance</h2>
+		<div id="curve_chart" style="width: 700px; height: 400px"></div>
+	</div>
+</div>
 
 
 <br>
@@ -177,30 +201,32 @@ new TradingView.MediumWidget({
 <% @stock['results'].each do |result| %>
 <h4><%=result["name"] %></h4>
 
-<table class="table table-striped">
-	<tr>
-		<thead>
-			<th>Last Price</th>
-			<th>Open</th>
-			<th>High</th>
-			<th>Low</th>
-			<th>Volume</th>
-			<th>Action</th>
-		</thead>
-	</tr>
+<div class="components">
+	<table class="table table-striped">
+		<tr>
+			<thead>
+				<th>Last Price</th>
+				<th>Open</th>
+				<th>High</th>
+				<th>Low</th>
+				<th>Volume</th>
+				<th>Action</th>
+			</thead>
+		</tr>
 
-	<tr>
-		<td>$<%=result["lastPrice"]%></td>
-		<td>$<%=result["open"]%></td>
-		<td>$<%=result["high"]%></td>
-		<td>$<%=result["low"]%></td>
-		<td><%=result["volume"]%></td>
-		<td><a href="/transaction/unfollow/<%=ticker.id %> " data-method='POST'>Unfollow</a>
-		<a href="/transaction/purchase/<%= ticker.ticker_symbol %>">Purchase Stock</a></td>
-	</tr>
-	<% end %>
-</table>
-<% end %>
+		<tr>
+			<td>$<%=result["lastPrice"]%></td>
+			<td>$<%=result["open"]%></td>
+			<td>$<%=result["high"]%></td>
+			<td>$<%=result["low"]%></td>
+			<td><%=result["volume"]%></td>
+			<td><a href="/transaction/unfollow/<%=ticker.id %> " data-method='POST'>Unfollow</a>
+				<a href="/transaction/purchase/<%= ticker.ticker_symbol %>">Purchase Stock</a></td>
+			</tr>
+			<% end %>
+		</table>
+		<% end %>
+</div>
 </div>
 
 <hr>
@@ -296,6 +322,5 @@ $(document).ready(function(){
 
        chart.draw(data, options);
      }
-
 });
 </script>
