@@ -3,14 +3,13 @@ Rails.application.routes.draw do
 # Transaction POST routes
 post "transaction/follow/:ticker" => "transaction#follow"
 post "transaction/unfollow/:id" => "transaction#unfollow"
-post "transaction/confirmation/:process" =>
-"transaction#confirmation"
+post "transaction/confirmation/:process" => "transaction#confirmation"
 
 #Transaction GET routes
 get "transaction/index"
 get "transaction/search"
-get "transaction/purchase/:ticker" => "transaction#purchase_stock"
 get "transaction/sell/:ticker" => "transaction#sell_stock"
+get "transaction/purchase/:ticker" => "transaction#purchase_stock"
 
 root "transaction#index"
 

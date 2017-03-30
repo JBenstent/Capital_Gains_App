@@ -101,6 +101,7 @@ new TradingView.MediumWidget({
 				<th>Shares Owned</th>
 				<th>Current Price</th>
 				<th>Value</th>
+				<th>Profit/Loss</th>
 				<th>Action</th>
 			</thead>
 		</tr>
@@ -109,6 +110,13 @@ new TradingView.MediumWidget({
 		<% @shares_owned.each do |stock| %>
 		<tr>
 			<td><%= stock[0] %></td>
+
+				<% if @shares_sold[stock[0]].nil? %>
+					<% @shares_sold[stock[0]] = 0 %>
+					<% elsif stock[1].nil? %>
+					<% stock[1] = 0 %>
+				<% end %>
+
 			<% if @shares_sold[stock[0]].nil? %>
 				<% @shares_sold[stock[0]] = 0 %>
 				<% elsif stock[1].nil? %>
@@ -117,9 +125,16 @@ new TradingView.MediumWidget({
 			<td><%= @shares = stock[1] - @shares_sold[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] * @shares %></td>
+			<% if @profit_loss.nil? %>
+			<% @profit_loss = 0 %>
+			<% elsif @profit_loss[stock[0].to_s].nil? %>
+				<% @profit_loss[stock[0]] = 0 %>
+				<% elsif stock[0].nil? %>
+				<% stock[0] = 0 %>
+				<% end %>
+			<td><%= @profit_loss[stock[0].to_s] %></td>
 			<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
 		</tr>
-
 		<% end %>
 	</table>
 </div>
