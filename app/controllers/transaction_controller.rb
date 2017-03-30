@@ -1,6 +1,7 @@
 class TransactionController < ApplicationController
 
   def index
+
     if !session[:user]
       redirect_to "/login"
     else
@@ -82,16 +83,52 @@ class TransactionController < ApplicationController
     @user = User.find(session[:user_id])
     @stock_owned = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').group(:ticker_symbol).sum(:quantity)
     @shares_owned = Transaction.where(user_id: session[:user_id], transaction_type: 'buy').group(:ticker_symbol).sum(:quantity)
-
+    @shares_sold = Transaction.where(user_id: session[:user_id], transaction_type: 'sell').group(:ticker_symbol).sum(:quantity)
 
     @price ={}
+    @profit_loss = {}
+
     @shares_owned.each do |stock|
-      stockprice = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{stock[0]}&type=daily&startDate=20160327")
-      sprice = stockprice['results'][0]['lastPrice']
-      @price[stock[0]]=sprice
+      @total_historic_price = Transaction.where(user_id: session[:user_id], ticker_symbol: stock[0], transaction_type: 'buy')
+      total_quantity_bought = Transaction.where(user_id: session[:user_id], ticker_symbol: stock[0], transaction_type: 'buy').sum(:quantity)
+      puts "THIS IS THE STOCK:", stock
+
+      @total_historic_price.each do |hist_info|
+
+        hist_mult = hist_info.historic_price.to_f * hist_info.quantity
+        hist_avg_pps = hist_mult / hist_info.quantity
+        total_quantity_bought = Transaction.where(user_id: session[:user_id], ticker_symbol: stock[0], transaction_type: 'buy').sum(:quantity)
+
+
+        puts "HISTORIC PRICE", hist_info.historic_price
+        puts "Quantity of stock", hist_info.quantity
+        puts "HISTORY PRICE * Q", hist_mult
+        puts "HISTORY AVG PRICE PER SHARE", hist_avg_pps
+
+        puts "__________________________________________________________"
+        # puts "TOTAL HISTORIC BOUGHT", total_quantity_bought
+
+        stockprice = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{stock[0]}&type=daily&startDate=20160327")
+        sprice = stockprice['results'][0]['lastPrice']
+        @price[stock[0]]=sprice
+
+        price_diff = @price[stock[0]] - hist_avg_pps
+        puts "CURRENT PRICE", @price[stock[0]]
+        puts "CURRENT PRICE - AVG HISTORIC PRICE", price_diff
+
+        puts "____________________________________________________________"
+
+        @profit_or_loss = price_diff * hist_info.quantity
+        puts "Profit or loss", @profit_or_loss
+
+        @profit_loss[stock[0]] = ("#{@profit_or_loss}")
+        puts "____________________________________________________________"
+      end
+      puts "profit_loss_object:", @profit_loss
     end
     render "index"
   end
+
 
 
   def sell_stock
@@ -146,11 +183,13 @@ class TransactionController < ApplicationController
 
   def follow
     Ticker.create(user_id: session[:user_id], ticker_symbol: params[:ticker])
+
     redirect_to "/transaction/index"
   end
 
   def unfollow
     Ticker.delete(params[:id])
+
     redirect_to "/transaction/index"
   end
 end
