@@ -5,11 +5,7 @@
 		background-color: white;
 		border: 5px solid gray
 	}
-	.text-left, .News{
-		display: inline-block;
-		vertical-align: top;
-		margin-right: 30px;
-	}
+
 
 	.News{
 		background-color: white;
@@ -18,6 +14,8 @@
 	.Wrapper {
 		background-image: url('/assets/capital_gains.jpg');
 		background-size: 100%;
+		background-repeat: no-repeat;
+    background-attachment: fixed;
 		o
 	}
 
@@ -45,6 +43,7 @@
   padding: 10px;
   margin: 50px auto;
   width: 340px;
+	opacity: .9;
   background-color: #fff;
   -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
@@ -112,10 +111,21 @@ h1, input {
 .inputButton:focus {
   outline: none;
 }
-
-
-
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("p").hover(function(){
+        $(this).css("background-color", "yellow");
+        }, function(){
+        $(this).css("background-color", "pink");
+    });
+});
+</script>
+
+
+
+
 
 <div class="topBanner">
 	<h1 id="title" class="text-center">CAPITAL GAINS</h1>
@@ -171,30 +181,9 @@ h1, input {
 	 </div>
 		<!--col-md-6-->
 
-	<div class="text-left">
-		<div class="userInfo">
-			<h4 class='text-center'>Registration</h4>
-			<form class="" action="/create/user" method="post">
-				<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
-				<h4 class='text-left'>User Credentials: </h4>
-				<!-- <p>First Name: <input type="text" name="first_name" value=""></p>
-				<p>Last Name: <input type="text" name="last_name" value=""></p>
-				<p>Email: <input type="text" name="email" value=""></p> -->
-				<p>Password: <input type="text" name="password" value=""></p>
-				<p>Confirm Password: <input type="text" name="confirm_pw" value=""></p>
-				<h4 class= 'text-left'>Address:</h4>
-				<p>City: <input type="text" name="city" value=""></p>
-				<p>State: <input type="text" name="state" value=""></p>
-				<p>Zip: <input type="text" name="zip" value=""></p>
-				<p>Phone: <input type="text" name="phone" value=""></p>
-				<input type="submit" name="" value="Register">
-			</form>
-		</div>
 
 
 
-
-	</div>
 
 	<div class="News">
 		<h3>Latest Financial News</h3>
@@ -225,8 +214,4 @@ h1, input {
 	<%end%>
 	<%end%>
 </div>
-
-
-
-
 </div>
