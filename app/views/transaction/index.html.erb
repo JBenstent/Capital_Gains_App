@@ -1,11 +1,26 @@
-<style media="screen">
+<style>
+
+	.topBanner{
+		border-bottom: 2px solid black;
+		background-color: #040e13
+	}
+
+	#title, #ticker{
+		color: white;
+	}
+
+	#title{
+		padding-top: 20px;
+		font-size: 70px;
+	}
+
 	.Purchase_Sell_Stock{
 		display: inline-block;
 	}
 
-	h1, .userFunction{
+	.userFunction{
 		display: inline-block;
-		margin-right: 300px;
+		float:right;
 	}
 
 	.userLinks{
@@ -25,35 +40,74 @@
 
 	.Watchlist{
 		display: :inline-block;
+		background-color: #8cb8d8
 	}
+
+	.center{
+		text-align: center;
+		margin-top: 0px;
+		padding-top: 30px;
+	}
+
 	}
 </style>
 
 
+<div class="topBanner">
+	<h1 class='center' id= 'title'>Capital Gains</h1>
 
-<h1>Capital Gains</h1>
+	<div class="userFunction">
+		<a href="/logout" class="userLinks">Logout</a>
+		<a href="/account" class="userLinks">Account</a>
+	</div>
 
-<div class="userFunction">
-	<a href="/logout" class="userLinks">Logout</a>
-	<a href="/account" class="userLinks">Account</a>
+	<div class="tickerSearch">
+		<form action="/transaction/search" method="get">
+			<p id="ticker">Ticker: <input style="color:black" type="text" name="ticker" value=""> <input style="color:black" type="submit" value="submit"></p>
+
+		</form>
+	</div>
 </div>
+
 <% if flash[:errors] %>
-	<% flash[:errors].each do |msg| %>
-  <ul>
-    <li><%= msg %></li>
-  </ul>
-  <%end%>
+<% flash[:errors].each do |msg| %>
+<ul>
+	<li><%= msg %></li>
+</ul>
+<%end%>
 <%end%>
 
-<div class="tickerSearch">
-	<form action="/transaction/search" method="get">
-		Ticker: <input type="text" name="ticker" value="">
-		<input type="submit" value="submit">
-	</form>
-</div>
+
+<!-- TradingView Widget BEGIN -->
+<h2 class= 'center'> <%=@user.first_name %>'s Stock Performance</h2>
+<div id="tv-medium-widget-3e0dc"></div>
+<script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
+<script type="text/javascript">
+new TradingView.MediumWidget({
+  "container_id": "tv-medium-widget-3e0dc",
+  "symbols": [
+
+		<% @shares_owned.each do |stock| %>
+		[
+			"<%= stock[0] %>",
+			"<%= stock[0] %>"
+		],
+		<% end %>
+
+  ],
+  "gridLineColor": "rgba(233, 233, 234, 1)",
+  "fontColor": "#83888D",
+  "underLineColor": "#dbeffb",
+  "trendLineColor": "#4bafe9",
+  "width": "1000px",
+  "height": "350px",
+  "locale": "en"
+});
+</script>
+<!-- TradingView Widget END -->
 
 
-<hr>
+
 <div class="AccountSnapshot">
 <h2>Account Snapshot</h2>
 <p><strong>Cash Balance:</strong> $<%= @user.checking_account %></p>
@@ -95,6 +149,7 @@
 			<td>$ <%=  @price[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] * @shares %></td>
 			<td></td>
+			<td>Placeholder</td>
 			<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
 		</tr>
 		<% end %>
@@ -105,39 +160,10 @@
 	<h2>Portfolio Allocation</h2>
 	<div id="piechart" style="width: 400px; height: 275px;"></div>
 </div>
-
 <h2>Account Performance</h2>
 <div id="curve_chart" style="width: 700px; height: 400px"></div>
 
 
-
-<!-- TradingView Widget BEGIN -->
-<h2>Stock Performance</h2>
-<div id="tv-medium-widget-3e0dc"></div>
-<script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
-<script type="text/javascript">
-new TradingView.MediumWidget({
-  "container_id": "tv-medium-widget-3e0dc",
-  "symbols": [
-
-		<% @shares_owned.each do |stock| %>
-		[
-			"<%= stock[0] %>",
-			"<%= stock[0] %>"
-		],
-		<% end %>
-
-  ],
-  "gridLineColor": "rgba(233, 233, 234, 1)",
-  "fontColor": "#83888D",
-  "underLineColor": "#dbeffb",
-  "trendLineColor": "#4bafe9",
-  "width": "1000px",
-  "height": "350px",
-  "locale": "en"
-});
-</script>
-<!-- TradingView Widget END -->
 
 <br>
 <br>
