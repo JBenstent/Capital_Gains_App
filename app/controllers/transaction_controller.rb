@@ -123,12 +123,12 @@ class TransactionController < ApplicationController
           @profit_or_loss = price_diff * hist_info.quantity
           puts "Profit or loss", @profit_or_loss
 
-          @profit_loss[stock[0]] = ("#{@profit_or_loss}")
           puts "____________________________________________________________"
 
         puts "profit_loss_object:", @profit_loss
       end
     end
+    @profit_loss[stock[0]] = ("#{@profit_or_loss}")
     render "index"
   end
 

@@ -94,14 +94,7 @@
 			<td><%= @shares = stock[1] - @shares_sold[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] * @shares %></td>
-			<% if @profit_loss.nil? %>
-			<% @profit_loss = 0 %>
-			<% elsif @profit_loss[stock[0].to_s].nil? %>
-				<% @profit_loss[stock[0]] = 0 %>
-				<% elsif stock[0].nil? %>
-				<% stock[0] = 0 %>
-				<% end %>
-			<td><%= @profit_loss[stock[0].to_s] %></td>
+			<td></td>
 			<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
 		</tr>
 		<% end %>
@@ -152,8 +145,16 @@ new TradingView.MediumWidget({
 
 
 
-<div class="Watchlist">
-<h2>Watchlist</h2>
+
+
+<div style="text-align:center" class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">Watchlist</h3>
+	</div>
+	<div class="panel-body">
+
+
+
 <% @ticker_follows.each do |ticker| %>
 <% @stock = HTTParty.get("http://marketdata.websol.barchart.com/getQuote.json?key=c259a86b4ec1a63d89b1dcc5173c24c1&symbols=#{ticker.ticker_symbol}") %>
 <% @stock['results'].each do |result| %>
@@ -226,6 +227,8 @@ new TradingView.MediumWidget({
 </div>
 <% end %>
 
+</div>
+</div>
 
 <script type="text/javascript">
 $(document).ready(function(){
