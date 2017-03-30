@@ -1,11 +1,26 @@
 <style media="screen">
+
+	.topBanner{
+		border-bottom: 2px solid black;
+		background-color: #040e13
+	}
+
+	#title, #ticker{
+		color: white;
+	}
+
+	#title{
+		padding-top: 20px;
+		font-size: 70px;
+	}
+
 	.Purchase_Sell_Stock{
 		display: inline-block;
 	}
 
-	h1, .userFunction{
+	.userFunction{
 		display: inline-block;
-		margin-right: 300px;
+		float:right;
 	}
 
 	.userLinks{
@@ -26,37 +41,44 @@
 	.Watchlist{
 		display: :inline-block;
 	}
+
+	.center{
+		text-align: center;
+		margin-top: 0px;
+		padding-top: 30px;
+	}
+
 	}
 </style>
 
 
+<div class="topBanner">
+	<h1 class='center' id= 'title'>Capital Gains</h1>
 
-<h1>Capital Gains</h1>
+	<div class="userFunction">
+		<a href="/logout" class="userLinks">Logout</a>
+		<a href="/account" class="userLinks">Account</a>
+	</div>
 
-<div class="userFunction">
-	<a href="/logout" class="userLinks">Logout</a>
-	<a href="/account" class="userLinks">Account</a>
+	<div class="tickerSearch">
+		<form action="/transaction/search" method="get">
+			<p id="ticker">Ticker: <input type="text" name="ticker" value=""> <input type="submit" value="submit"></p>
+
+		</form>
+	</div>
 </div>
+
 <% if flash[:errors] %>
-	<% flash[:errors].each do |msg| %>
-  <ul>
-    <li><%= msg %></li>
-  </ul>
-  <%end%>
+<% flash[:errors].each do |msg| %>
+<ul>
+	<li><%= msg %></li>
+</ul>
+<%end%>
 <%end%>
 
-<div class="tickerSearch">
-	<form action="/transaction/search" method="get">
-		Ticker: <input type="text" name="ticker" value="">
-		<input type="submit" value="submit">
-	</form>
-</div>
-
-
-<hr>
 
 <!-- TradingView Widget BEGIN -->
-<h2> <%=@user.first_name %>'s Stock Performance</h2>
+<h2 class= 'center'> <%=@user.first_name %>'s Stock Performance</h2>
 <div id="tv-medium-widget-3e0dc"></div>
 <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
 <script type="text/javascript">
@@ -125,14 +147,7 @@ new TradingView.MediumWidget({
 			<td><%= @shares = stock[1] - @shares_sold[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] * @shares %></td>
-			<% if @profit_loss.nil? %>
-			<% @profit_loss = 0 %>
-			<% elsif @profit_loss[stock[0].to_s].nil? %>
-				<% @profit_loss[stock[0]] = 0 %>
-				<% elsif stock[0].nil? %>
-				<% stock[0] = 0 %>
-				<% end %>
-			<td><%= @profit_loss[stock[0].to_s] %></td>
+			<td>Placeholder</td>
 			<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
 		</tr>
 		<% end %>
