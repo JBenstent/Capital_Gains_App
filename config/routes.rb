@@ -20,6 +20,7 @@ post "user/login" => "user#login"
 #User GET routes
 get "/logout" => "user#logout"
 get "login" => "user#loginreg"
+get "/account" => "user#account"
 
 
   # The priority is based upon order of creation: first created -> highest priority.

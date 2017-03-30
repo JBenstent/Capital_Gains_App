@@ -32,7 +32,6 @@
 	}
 
 
-
 .container {
   display: -webkit-flex;
   display: flex;
@@ -57,7 +56,7 @@ h1 {
   font-weight: 300;
 }
 
-h1, input {
+h1, input, .ourMission {
   font-family: "Open Sans", Helvetica, sans-serif;
 }
 
@@ -111,6 +110,14 @@ h1, input {
 .inputButton:focus {
   outline: none;
 }
+
+.ourMission{
+	background-color: white;
+	display: inline-block;
+	text-align: center;
+	opacity:.9;
+}
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script>
@@ -127,8 +134,9 @@ $(document).ready(function(){
 
 
 
+
 <div class="topBanner">
-	<h1 id="title" class="text-center">CAPITAL GAINS</h1>
+	<h1 id="title" class="text-center">WU-TANG FINANCIAL</h1>
 	<div class="ticker">
 		<!-- Start TC2000 widget -->
 		<iframe width="100%" noresize="noresize" scrolling="no" height="20" frameborder="0" src="https://widgets.tc2000.com/WidgetServer.ashx?id=47565"></iframe>
@@ -137,8 +145,13 @@ $(document).ready(function(){
 </div>
 
 
-
 	<div class="Wrapper">
+
+<div class="ourMission">
+	<h3>Our Mission</h3>
+	<div style="background-color:#000000;width:520px;"><div style="padding:4px;"><iframe src="//media.mtvnservices.com/embed/mgid:arc:video:comedycentral.com:98ed0496-ed00-11e0-aca6-0026b9414f30" width="512" height="288" frameborder="0" allowfullscreen="true"></iframe></div></div>
+</div>
+
 
 		<div class="col-md-6">
 	 	<div id="logbox">
@@ -173,17 +186,33 @@ $(document).ready(function(){
 				<input name="zip" type="text" placeholder="Zip" class="input pass"/>
 				<input name="phone" type="text" placeholder="Phone" class="input pass"/>
 				<input type="submit" value="Sign me up!" class="inputButton"/>
-				<div class="text-center">
-						already have an account? <a href="#" id="login_id">login</a>
-				</div>
 			</form>
 		</div>
 	 </div>
 		<!--col-md-6-->
 
 
+	<div class="text-left">
+		<div class="userInfo">
+			<h4 class='text-center'>Registration</h4>
+			<form class="" action="/create/user" method="post">
+				<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+				<h4 class='text-left'>User Credentials: </h4>
+				<!-- <p>First Name: <input type="text" name="first_name" value=""></p>
+				<p>Last Name: <input type="text" name="last_name" value=""></p>
+				<p>Email: <input type="text" name="email" value=""></p> -->
+				<p>Password: <input type="text" name="password" value=""></p>
+				<p>Confirm Password: <input type="text" name="confirm_pw" value=""></p>
+				<h4 class= 'text-left'>Address:</h4>
+				<p>City: <input type="text" name="city" value=""></p>
+				<p>State: <input type="text" name="state" value=""></p>
+				<p>Zip: <input type="text" name="zip" value=""></p>
+				<p>Phone: <input type="text" name="phone" value=""></p>
+				<input type="submit" name="" value="Register">
+			</form>
+		</div>
 
-
+	</div>
 
 	<div class="News">
 		<h3>Latest Financial News</h3>

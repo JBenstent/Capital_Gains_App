@@ -1,0 +1,56 @@
+<style>
+.topBanner{
+  border-bottom: 2px solid black;
+  background-color: #040e13
+}
+
+#title, #ticker{
+  color: white;
+}
+
+#title{
+  font-size: 70px;
+  display: inline-block;
+
+}
+
+.center{
+  text-align: center;
+  margin-top: 0px;
+  padding-top: 30px;
+}
+
+.userFunction{
+  display: inline-block;
+  float:right;
+  margin-top: 75px;
+}
+
+.userLinks{
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+h1, input {
+  font-family: "Open Sans", Helvetica, sans-serif;
+}
+
+
+</style>
+
+
+<div class="topBanner">
+	<h1 class='center' id= 'title'>WU-TANG FINANCIAL</h1>
+	<div class="userFunction">
+    <a href="/transaction/index" class="userLinks">Portfolio</a>
+		<a href="/logout" class="userLinks">Logout</a>
+	</div>
+</div>
+
+<% if flash[:errors] %>
+<% flash[:errors].each do |msg| %>
+<ul>
+	<li><%= msg %></li>
+</ul>
+<%end%>
+<%end%>
