@@ -18,6 +18,7 @@
   text-align: center;
   margin-top: 0px;
   padding-top: 30px;
+  margin-left: 30%;
 }
 
 .userFunction{
@@ -38,7 +39,6 @@ h1, input {
 
 </style>
 
-
 <div class="topBanner">
 	<h1 class='center' id= 'title'>WU-TANG FINANCIAL</h1>
 	<div class="userFunction">
@@ -46,6 +46,28 @@ h1, input {
 		<a href="/logout" class="userLinks">Logout</a>
 	</div>
 </div>
+
+
+<div class="userInformation">
+<form class="" action="user/update" method="post">
+  <h3>Your Personal Information</h3>
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <p>First Name: <input type="text" name="first_name" value= '<%= @user.first_name %>' ></p>
+  <p>Last Name: <input type="text" name="last_name" value= '<%= @user.last_name %>'></p>
+  <p>Email: <input type="text" name="email" value="<%= @user.email %>"></p>
+  <p>City: <input type="text" name="city" value="<%= @user.city %>"></p> </p>
+  <p>State: <input type="text" name="state" value="<%= @user.state %>"></p>
+  <p>Zip: <input type="text" name="zip" value="<%= @user.zip %>"></p>
+  <p>Phone: <input type="text" name="phone" value="<%= @user.phone %>"></p>
+  <input type="submit" value="Update">
+</form>
+</div>
+
+
+<div class="bankVerificationTest">
+
+</div>
+
 
 <% if flash[:errors] %>
 <% flash[:errors].each do |msg| %>

@@ -16,6 +16,7 @@ root "transaction#index"
 # User POST routes
 post "create/user" => "user#create_user"
 post "user/login" => "user#login"
+post "user/update" => "user#update"
 
 #User GET routes
 get "/logout" => "user#logout"
