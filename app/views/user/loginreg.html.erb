@@ -1,41 +1,20 @@
 <style media="screen">
-	.userInfo{
-		display: inline-block;
-		vertical-align: top;
-		background-color: white;
-		border: 5px solid gray
-	}
 
 
-	.News{
-		background-color: white;
-		border: 5px solid gray
-	}
-	.Wrapper {
-		background-image: url('/assets/capital_gains.jpg');
-		background-size: 100%;
-		background-repeat: no-repeat;
-    background-attachment: fixed;
-		o
-	}
 
-	.topBanner{
-		  border-bottom: 2px solid black;
-		  background-color: #040e13
-		}
+body{
+    background: url('/assets/capital_gains.jpg') no-repeat center center fixed;
+		background-size: 100% auto;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin-top: 12%;
+}
 
-	#title{
-	  color: white;
-		margin-top: 0px;
-		padding-top: 20px;
-		font-size: 80px;
-	}
-
-
-.container {
-  display: -webkit-flex;
-  display: flex;
-  height: 100%;
+#bg{
+    background:url('../img/con_bg4.png') no-repeat center center;
+    height: 500px;
 }
 
 #logbox {
@@ -49,15 +28,9 @@
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 
-h1 {
-  text-align: center;
-  font-size: 175%;
-  color: #757575;
-  font-weight: 300;
-}
-
-h1, input, .ourMission {
-  font-family: "Open Sans", Helvetica, sans-serif;
+button, input, select, textarea {
+    font-size: 150%;
+    margin: 0;
 }
 
 .input {
@@ -82,6 +55,13 @@ h1, input, .ourMission {
 
 .pass:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+h1 {
+  text-align: center;
+  font-size: 175%;
+  color: #757575;
+  font-weight: 300;
 }
 
 .inputButton {
@@ -111,47 +91,81 @@ h1, input, .ourMission {
   outline: none;
 }
 
-.ourMission{
-	background-color: white;
-	display: inline-block;
-	text-align: center;
-	opacity:.9;
+.jumbotron {
+    padding-top: 2px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    margin-top: -190px;
+		background-color: black;
+		opacity: .7;
+	}
+
+	ron .h1, .jumbotron h1 {
+    color: white;
 }
 
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+    /*font-weight: 500;*/
+    /*line-height: 1.1;*/
+    /*color: white;*/
+		opacity: .9;
+
+}
+
+.tickermove {
+	margin-top: -45px;
+}
+
+.ourMission{
+	/*background-color: white;*/
+	display: inline-block;
+	text-align: center;
+	font
+	margin-top: 35px;
+}
+
+.rounded {
+  border-radius: 10px;
+
+  background: #000; // without a background or border applied you won't be able to see if its rounded
+
+
+}
+
+
+
+h1, input, #Mission {
+  font-family: "Open Sans", Helvetica, sans-serif;
+}
+
+
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-    $("p").hover(function(){
-        $(this).css("background-color", "yellow");
-        }, function(){
-        $(this).css("background-color", "pink");
-    });
-});
-</script>
 
-
-
-
-
-
-<div class="topBanner">
-	<h1 id="title" class="text-center">WU-TANG FINANCIAL</h1>
-	<div class="ticker">
-		<!-- Start TC2000 widget -->
-		<iframe width="100%" noresize="noresize" scrolling="no" height="20" frameborder="0" src="https://widgets.tc2000.com/WidgetServer.ashx?id=47565"></iframe>
-		<!-- END TC2000 Widget -->
-	</div>
+<div class="jumbotron">
+  <h1>Wu-Tang Financial</h1>
 </div>
-
-
-	<div class="Wrapper">
+<div class="tickermove">
+	<iframe width="100%" noresize="noresize" scrolling="yes" height="20" frameborder="0" src="https://widgets.tc2000.com/WidgetServer.ashx?id=47565"></iframe>
+</div>
 
 <div class="ourMission">
-	<h3>Our Mission</h3>
-	<div style="background-color:#000000;width:520px;"><div style="padding:4px;"><iframe src="//media.mtvnservices.com/embed/mgid:arc:video:comedycentral.com:98ed0496-ed00-11e0-aca6-0026b9414f30" width="512" height="288" frameborder="0" allowfullscreen="true"></iframe></div></div>
+	<h3 class="rounded" style="white">Our Mission</h3>
+	<div class="rounded"><div class="rounded" style="padding:4px;"><iframe src="//media.mtvnservices.com/embed/mgid:arc:video:comedycentral.com:98ed0496-ed00-11e0-aca6-0026b9414f30" width="512" height="288" frameborder="0" allowfullscreen="true" class="rounded"></iframe></div></div>
 </div>
 
+
+
+<div class="col-md-6">
+	<div id="logbox">
+		<form id="signup" method="post" action="/user/login">
+			<h1>Account Login</h1>
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+			<input name="email" type="email" placeholder="enter your email" class="input pass"/>
+			<input name="password" type="password" placeholder="enter your password" required="required" class="input pass"/>
+			<input type="submit" value="Sign me in!" class="inputButton"/>
+		</form>
 
 		<div class="col-md-6">
 	 	<div id="logbox">
@@ -209,15 +223,21 @@ $(document).ready(function(){
 						</div>
 					</div>
 	</div>
-</div>
 
-<div class="errors">
-	<% if flash[:errors] %>
-	<% flash[:errors].each do |msg| %>
-	<ul>
-		<li><%= msg %></li>
-	</ul>
-	<%end%>
-	<%end%>
-</div>
+	<div id="logbox">
+		<form id="signup" method="post" action="/create/user">
+			<h1>Create Account</h1>
+			<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+			<input name="first_name" type="text" placeholder="First Name" pattern="^[\w]{3,16}$" autofocus="autofocus" required="required" class="input pass"/>
+			<input name="last_name" type="text" placeholder="Last Name" pattern="^[\w]{3,16}$" autofocus="autofocus" required="required" class="input pass"/>
+			<input name="email" type="email" placeholder="Email Address" class="input pass"/>
+			<input name="password" type="password" placeholder="Choose a password" required="required" class="input pass"/>
+			<input name="confirm_pw" type="password" placeholder="Confirm password" required="required" class="input pass"/>
+
+			<input name="city" type="text" placeholder="City" class="input pass"/>
+			<input name="state" type="text" placeholder="State" class="input pass"/>
+			<input name="zip" type="text" placeholder="Zip" class="input pass"/>
+			<input name="phone" type="text" placeholder="Phone" class="input pass"/>
+			<input type="submit" value="Sign me up!" class="inputButton"/>
+		</form>
 </div>
