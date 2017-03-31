@@ -35,6 +35,16 @@ class UserController < ApplicationController
 
 
 def account
+  @user = User.find(session[:user_id])
+  puts '$' * 100
+  puts @user
+end
+
+def update
+@user = User.find(session[:user_id])
+@user.update(first_name: params[:first_name], last_name: params[:last_name], email: params[:email], city: params[:city], state: params[:state], zip: params[:zip], phone: params[:phone])
+@user.save
+redirect_to "/account"
 end
 
 end

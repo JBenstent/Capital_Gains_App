@@ -166,6 +166,62 @@ h1, input, #Mission {
 			<input name="password" type="password" placeholder="enter your password" required="required" class="input pass"/>
 			<input type="submit" value="Sign me in!" class="inputButton"/>
 		</form>
+
+		<div class="col-md-6">
+	 	<div id="logbox">
+	 		<form id="signup" method="post" action="/user/login">
+	 			<h1>Account Login</h1>
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+	 			<input name="email" type="email" placeholder="enter your email" class="input pass"/>
+	 			<input name="password" type="password" placeholder="enter your password" required="required" class="input pass"/>
+	 			<input type="submit" value="Sign me in!" class="inputButton"/>
+			</form>
+	 	</div>
+	 	</div>
+
+
+
+
+	<div class="container">
+		<div class="col-md-6">
+		<div id="logbox">
+			<form id="signup" method="post" action="/create/user">
+				<h1>Create Account</h1>
+				<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+				<input name="first_name" type="text" placeholder="First Name" pattern="^[\w]{3,16}$" autofocus="autofocus" required="required" class="input pass"/>
+				<input name="last_name" type="text" placeholder="Last Name" pattern="^[\w]{3,16}$" autofocus="autofocus" required="required" class="input pass"/>
+				<input name="email" type="email" placeholder="Email Address" class="input pass"/>
+				<input name="password" type="password" placeholder="Choose a password" required="required" class="input pass"/>
+				<input name="confirm_pw" type="password" placeholder="Confirm password" required="required" class="input pass"/>
+
+				<input name="city" type="text" placeholder="City" class="input pass"/>
+				<input name="state" type="text" placeholder="State" class="input pass"/>
+				<input name="zip" type="text" placeholder="Zip" class="input pass"/>
+				<input name="phone" type="text" placeholder="Phone" class="input pass"/>
+				<input type="submit" value="Sign me up!" class="inputButton"/>
+			</form>
+		</div>
+	 </div>
+		<!--col-md-6-->
+
+	<div class="News">
+		<h3>Latest Financial News</h3>
+		<script>
+						var nof_headlines = 5;
+						var author_id = '';				</script>
+					<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+					<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+					<script src="http://static.amigobulls.com/js/news_widgets.min.js.gz"></script>
+					<link rel="stylesheet" type="text/css" href="http://static.amigobulls.com/css/news_widgets.min.css.gz" />
+					<div id="container" style="width:350px;" >
+						<div class='output_data'>
+							<h3 class='border'><a rel='nofollow' href='http://amigobulls.com/video/' title='Stock Analysis Videographs'>Stock Market News & Analysis</a></h3>
+							<ul id='listcontainer'>
+								<li class='colorgrey border'><a rel='nofollow' href='http://amigobulls.com/video/netflix-stock-analysis'  title= "Netflix Stock Analysis Video">Netflix Stock Analysis Video</a></li>
+							</ul>
+						</div>
+					</div>
 	</div>
 
 	<div id="logbox">

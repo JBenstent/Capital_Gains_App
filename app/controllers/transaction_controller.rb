@@ -187,7 +187,6 @@ class TransactionController < ApplicationController
 
   def unfollow
     Ticker.delete(params[:id])
-
     redirect_to "/transaction/index"
   end
 
