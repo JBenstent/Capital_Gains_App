@@ -66,6 +66,24 @@
 	}
 </style>
 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
 
 <div class="topBanner">
 	<h1 class='center' id= 'title'>WU-TANG FINANCIAL</h1>
@@ -75,13 +93,40 @@
 		<a href="/account" class="userLinks">Account</a>
 	</div>
 
+
 	<div class="tickerSearch">
 		<form action="/transaction/search" method="get">
 			<p id="ticker">Ticker: <input style="color:black" type="text" name="ticker" value=""> <input style="color:black" type="submit" value="submit"></p>
-
 		</form>
 	</div>
 </div>
+
+
+
+	<div class="dropdown">
+		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Latest News
+			<span class="caret"></span></button>
+			<ul class="dropdown-menu">
+				<link rel="stylesheet" type="text/css" href="http://static.amigobulls.com/css/news_widgets.min.css.gz" />
+				<div id="container" style="width:350px;" >
+					<div class='output_data'>
+						<h3 class='border'><a rel='nofollow' href='http://amigobulls.com/video/' title='Stock Analysis Videographs'>Stock Market News & Analysis</a></h3>
+						<ul id='listcontainer'>
+							<li class='colorgrey border'><a rel='nofollow' href='http://amigobulls.com/video/netflix-stock-analysis'  title= "Netflix Stock Analysis Video">Netflix Stock Analysis Video</a></li>
+						</ul>
+			</ul>
+		</div>
+
+
+		<script>var nof_headlines = 5;
+		var author_id = '';
+		</script>
+					<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+					<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+					<script src="http://static.amigobulls.com/js/news_widgets.min.js.gz"></script>
+
+		</div>
+
 
 <% if flash[:errors] %>
 <% flash[:errors].each do |msg| %>
@@ -91,15 +136,28 @@
 <%end%>
 <%end%>
 
-<div class="Snapshots">
-	<div class="AccountSnapshot">
-		<h2>Account Snapshot</h2>
-		<div class="components">
-			<p><strong>Cash Balance:</strong> $<%= @user.checking_account %></p>
-			<p><strong>Stocks:</strong> $ <%= @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %></p>
-			<p><strong>Cash+Stocks:</strong> $ <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %> </p>
-		</div>
-	</div>
+
+
+<h2 style="text-align:center">Account Snapshot</h2>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Cash Balance</th>
+      <th>Stocks</th>
+      <th>Cash+Stocks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$<%= @user.checking_account %></td>
+      <td>$ <%= @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %></td>
+      <td>$ <%= @user.checking_account + @portfolio_owned[1].to_f - @portfolio_sold[1].to_f %> </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
 
 	<div class="Portfolio">
 		<h2>Current Portfolio</h2>
@@ -110,7 +168,6 @@
 					<th>Shares Owned</th>
 					<th>Current Price</th>
 					<th>Value</th>
-					<th>Profit/Loss</th>
 					<th>Action</th>
 				</thead>
 			</tr>
@@ -136,12 +193,15 @@
 			<td>$ <%=  @price[stock[0]] %></td>
 			<td>$ <%=  @price[stock[0]] * @shares %></td>
 			<td></td>
-			<td>Placeholder</td>
 			<td><a href="/transaction/sell/<%=stock[0] %>">Sell Stock</a></td>
 		</tr>
 		<% end %>
 	</table>
 </div>
+
+
+
+
 
 
 <div class="accountHighlights">
@@ -282,6 +342,9 @@
 
 </div>
 </div>
+
+</body>
+</html>
 
 <script type="text/javascript">
 $(document).ready(function(){

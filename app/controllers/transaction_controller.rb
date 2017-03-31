@@ -128,7 +128,6 @@ class TransactionController < ApplicationController
         puts "profit_loss_object:", @profit_loss
       end
     end
-    @profit_loss[stock[0]] = ("#{@profit_or_loss}")
     render "index"
   end
 
